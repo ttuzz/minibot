@@ -1,14 +1,5 @@
 #summary Минибот - простой и готовый робот для начинающих
 
-= Introduction =
-
-Add your content here.
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
-  * 01
-
 = Краткое описание узлов и агрегатов =
   * CPU - AVR ATMega32 8 МГц (опционально 16 МГц)
   * Мостовая схема управления двигателями на MOFSET в режиме ШИМ модуляции - IRF7105 2.3А (в импульсе 10А)
@@ -40,5 +31,4 @@ Add your content here.  Format your content with:
   * 2 двухцветных светодиода доступных программно
   * динамик
   * двухцветный светодиод - аппаратно показывает из какого источника идет заряд акб.
-  * цветной графический ЖКИ 131x175 пикселей от Siemens S65 (опционально)
   * цветной графический ЖКИ 96х65 пикселей, 4096 цветов ЖКИ от Nokia 3510i (опционально)
