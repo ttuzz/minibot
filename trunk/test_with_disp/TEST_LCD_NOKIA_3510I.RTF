@@ -1,0 +1,295 @@
+{\rtf1\ansi {\fonttbl
+{\f0\fcharset1 \fnil Times New Roman;}
+{\f1\fcharset1 Courier;}
+}
+{\colortbl
+\red0\green0\blue0;
+\red0\green0\blue128;
+\red255\green0\blue0;
+\red0\green128\blue128;
+\red0\green128\blue0;
+\red128\green0\blue0;
+}
+
+{\plain 
+{\f1 {\fs24 
+{\cf0 {\f1 {\fs24 
+{\b 
+{\cf1 $regfile}}}}{\cf0  }{\cf2 =}{\cf0  }{\cf3 "m32DEF.dat"}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 $crystal}}}}{\cf0  }{\cf2 =}{\cf0  7372800                                          }{\cf4 '11059200}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 $baud}}}}{\cf0  }{\cf2 =}{\cf0  1200}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 $hwstack}}}}{\cf0  }{\cf2 =}{\cf0  128}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 $swstack}}}}{\cf0  }{\cf2 =}{\cf0  128}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 $framesize}}}}{\cf0  }{\cf2 =}{\cf0  128}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Config}}}}{\cf0  Serialin }{\cf2 =}{\cf0  Buffered }{\cf2 ,}{\cf0  Size }{\cf2 =}{\cf0  20}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Enable}}}}{\cf0  }{\b 
+{\cf1 Interrupts{\line 
+}}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 $lib}}}}{\cf0  }{\cf3 "nokialcd.lbx"}{\line 
+}{\f1 {\fs24 
+{\cf4 'библиотеки AVR-DOS и SD}}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 $include}}}}{\cf0  }{\cf3 "Config_MMC.bas"}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 $include}}}}{\cf0  }{\cf3 "Config_AVR-DOS.BAS"}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Config}}}}{\cf0  Graphlcd }{\cf2 =}{\cf0  Color }{\cf2 ,}{\cf0  Controlport }{\cf2 =}{\cf0  }{\cf5 Portc}{\cf0  }{\cf2 ,}{\cf0  Rs }{\cf2 =}{\cf0  4 }{\cf2 ,}{\cf0  Cs }{\cf2 =}{\cf0  5 }{\cf2 ,}{\cf0  Scl }{\cf2 =}{\cf0  7 }{\cf2 ,}{\cf0  Sda }{\cf2 =}{\cf0  6}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Blue }{\cf2 =}{\cf0  }{\cf2 &}{\cf0 B00000011                                     }{\cf4 'predefined contants are making programming easier}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Yellow }{\cf2 =}{\cf0  }{\cf2 &}{\cf0 B11111100}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Red }{\cf2 =}{\cf0  }{\cf2 &}{\cf0 B11100000}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Green }{\cf2 =}{\cf0  }{\cf2 &}{\cf0 B00011100}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Black }{\cf2 =}{\cf0  }{\cf2 &}{\cf0 B00000000}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  White }{\cf2 =}{\cf0  }{\cf2 &}{\cf0 B11111111}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Brightgreen }{\cf2 =}{\cf0  }{\cf2 &}{\cf0 B00111110}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Darkgreen }{\cf2 =}{\cf0  }{\cf2 &}{\cf0 B00010100}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Darkred }{\cf2 =}{\cf0  }{\cf2 &}{\cf0 B10100000}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Darkblue }{\cf2 =}{\cf0  }{\cf2 &}{\cf0 B00000010}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Brightblue }{\cf2 =}{\cf0  }{\cf2 &}{\cf0 B00011111}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Orange }{\cf2 =}{\cf0  }{\cf2 &}{\cf0 B11111000{\line 
+}}{\line 
+}{\f1 {\fs24 
+{\cf0 Gbdoserror }}}{\cf2 =}{\cf0  }{\b 
+{\cf1 Initfilesystem}}{\cf2 (}{\cf0 0}{\cf2 ){\line 
+}{\line 
+}{\line 
+}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Dim}}}}{\cf0  Color }{\b 
+{\cf1 As}}{\cf0  }{\b 
+{\cf1 Byte}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Dim}}}}{\cf0  I }{\b 
+{\cf1 As}}{\cf0  }{\b 
+{\cf1 Integer}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Dim}}}}{\cf0  K }{\b 
+{\cf1 As}}{\cf0  }{\b 
+{\cf1 Integer{\line 
+}}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Filename1 }{\cf2 =}{\cf0  }{\cf3 "lb.bmp"}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Const}}}}{\cf0  Filename2 }{\cf2 =}{\cf0  }{\cf3 "lc.bmp"{\line 
+}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Cls}}}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Pset}}}}{\cf0  }{\cf2 -}{\cf0 1 }{\cf2 ,}{\cf0  }{\cf2 -}{\cf0 1 }{\cf2 ,}{\cf0  Black}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Pset}}}}{\cf0  10 }{\cf2 -}{\cf0 1 }{\cf2 ,}{\cf0  }{\cf2 -}{\cf0 1 }{\cf2 ,}{\cf0  Black}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Wait}}}}{\cf0  5{\line 
+}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Cls}}}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Open}}}}{\cf0  Filename1 }{\b 
+{\cf1 For}}{\cf0  }{\b 
+{\cf1 Binary}}{\cf0  }{\b 
+{\cf1 As}}{\cf0  }{\cf2 #}{\cf0 4}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Do}}}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 For}}}}{\cf0  I }{\cf2 =}{\cf0  }{\cf2 -}{\cf0 1 }{\b 
+{\cf1 To}}{\cf0  65}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\b 
+{\cf1 For}}{\cf0  K }{\cf2 =}{\cf0  }{\cf2 -}{\cf0 1 }{\b 
+{\cf1 To}}{\cf0  96}{\line 
+}{\f1 {\fs24 
+{\cf0       }}}{\b 
+{\cf1 Get}}{\cf0  }{\cf2 #}{\cf0 4 }{\cf2 ,}{\cf0  Color}{\line 
+}{\f1 {\fs24 
+{\cf0       }}}{\b 
+{\cf1 Pset}}{\cf0  K }{\cf2 ,}{\cf0  I }{\cf2 ,}{\cf0  Color}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\b 
+{\cf1 Next}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Next}}}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Loop}}}}{\cf0  }{\b 
+{\cf1 Until}}{\cf0  }{\b 
+{\cf1 Eof}}{\cf2 (#}{\cf0 4}{\cf2 )}{\cf0  }{\cf2 <>}{\cf0  0}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Close}}}}{\cf0  }{\cf2 #}{\cf0 4{\line 
+}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Wait}}}}{\cf0  10{\line 
+}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Cls}}}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Open}}}}{\cf0  Filename2 }{\b 
+{\cf1 For}}{\cf0  }{\b 
+{\cf1 Binary}}{\cf0  }{\b 
+{\cf1 As}}{\cf0  }{\cf2 #}{\cf0 4}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Do}}}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 For}}}}{\cf0  I }{\cf2 =}{\cf0  }{\cf2 -}{\cf0 1 }{\b 
+{\cf1 To}}{\cf0  65}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\b 
+{\cf1 For}}{\cf0  K }{\cf2 =}{\cf0  }{\cf2 -}{\cf0 1 }{\b 
+{\cf1 To}}{\cf0  96}{\line 
+}{\f1 {\fs24 
+{\cf0       }}}{\b 
+{\cf1 Get}}{\cf0  }{\cf2 #}{\cf0 4 }{\cf2 ,}{\cf0  Color}{\line 
+}{\f1 {\fs24 
+{\cf0       }}}{\b 
+{\cf1 Pset}}{\cf0  K }{\cf2 ,}{\cf0  I }{\cf2 ,}{\cf0  Color}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\b 
+{\cf1 Next}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Next}}}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 Loop}}}}{\cf0  }{\b 
+{\cf1 Until}}{\cf0  }{\b 
+{\cf1 Eof}}{\cf2 (#}{\cf0 4}{\cf2 )}{\cf0  }{\cf2 <>}{\cf0  0{\line 
+}}{\line 
+}{\f1 {\fs24 
+{\b 
+{\cf1 End{\line 
+}{\line 
+}}}}}{\line 
+}{\f1 {\fs24 
+{\cf4 '(}}}{\line 
+}{\f1 {\fs24 
+{\cf4 For I = -1 To 96}}}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\cf4 For K = -1 To 65}{\line 
+}{\f1 {\fs24 
+{\cf0       }}}{\cf4 Pset I , K , Red}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\cf4 Next}{\line 
+}{\f1 {\fs24 
+{\cf4 Next{\line 
+}}}}{\line 
+}{\f1 {\fs24 
+{\cf4 Pset -1 , -1 , Black}}}{\line 
+}{\f1 {\fs24 
+{\cf4 Pset 96 , 65 , Black}}}{\line 
+}{\f1 {\fs24 
+{\cf4 '){\line 
+}}}}{\line 
+}{\f1 {\fs24 
+{\cf4 '(}}}{\line 
+}{\f1 {\fs24 
+{\cf4 Dim Buf As Integer}}}{\line 
+}{\f1 {\fs24 
+{\cf4 Buf = 0{\line 
+}}}}{\line 
+}{\f1 {\fs24 
+{\cf4 Do}}}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\cf4 For I = 0 To 66}{\line 
+}{\f1 {\fs24 
+{\cf0       }}}{\cf4 For K = 0 To 97}{\line 
+}{\f1 {\fs24 
+{\cf0          }}}{\cf4 Get #4 , Color}{\line 
+}{\f1 {\fs24 
+{\cf0       }}}{\cf4 Next}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\cf4 Next}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\cf4 Pset Buf , 5 , Red}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\cf4 Incr Buf}{\line 
+}{\f1 {\fs24 
+{\cf4 Loop Until Eof(#4) <> 0{\line 
+}}}}{\line 
+}{\f1 {\fs24 
+{\cf4 Do}}}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\cf4 Get #4 , Buf}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\cf4 Ocr2 = Buf}{\line 
+}{\f1 {\fs24 
+{\cf0    }}}{\cf4 Waitus Delay_us}{\line 
+}{\f1 {\fs24 
+{\cf4 Loop Until Eof(#4) <> 0}}}{\line 
+}{\f1 {\fs24 
+{\cf4 '){\line 
+}{\line 
+}}}}{\line 
+}{\f1 {\fs24 
+{\cf4 'Cls{\line 
+}}}}{\line 
+}{\f1 {\fs24 
+{\cf4 'Setfont Color_exo}}}{\line 
+}{\f1 {\fs24 
+{\cf4 'Lcdat 0 , 0 , "0123 minibot" , Red , Green}}}{\line 
+}{\f1 {\fs24 
+{\cf4 'Wait 10{\line 
+}{\line 
+}}}}{\line 
+}{\f1 {\fs24 
+{\cf4 '$include "Color_exoRus.font"}}}}}}}}
