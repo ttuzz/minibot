@@ -1,6 +1,6 @@
-Report       : main
-Date         : 11-30-2009
-Time         : 00:15:18
+Report       : main-new
+Date         : 12-04-2009
+Time         : 01:11:06
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M32
@@ -8,20 +8,20 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : D42 hex  -> Will fit into ROM
-ROMIMAGE     :  3394 dec
+ROMIMAGE     : D5C hex  -> Will fit into ROM
+ROMIMAGE     :  3420 dec
 FLASH USED   :  10  %
 BAUD         : 115200 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
 
 Stack start  : 85F hex
-Stack size   : 20 hex
-S-Stacksize  : 8 hex
-S-Stackstart : 840 hex
-Framesize    : 18 hex
-Framestart   : 827 hex
-Space left   :  1971  dec
+Stack size   : 40 hex
+S-Stacksize  : 40 hex
+S-Stackstart : 820 hex
+Framesize    : 40 hex
+Framestart   : 7DF hex
+Space left   :  1843  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -72,8 +72,8 @@ ADC_TEMP                         Word              0062          98
 AKB                              Single            0064          100 
 ERRBYTE                          Byte              0068          104 
 состояние_робота                 Byte              0069          105 
-I                                Byte              006A          106 
-флаг                             Byte              006B          107 
+флаг                             Byte              006A          106 
+I                                Byte              006B          107 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -436,9 +436,9 @@ _DOSDIRWRITE                     0
 _1WEXT                           0                                                                                                                                                                                                                                                               
 _ADC_REFMODEL                    0                                                                                                                                                                                                                                                               
 _UARTS                           1                                                                                                                                                                                                                                                               
-_HWSTACK_LOW                      2111                                                                                                                                                                                                                                                           
-_SWSTACK_LOW                      2104                                                                                                                                                                                                                                                           
-_FRAME_HIGH                       2104                                                                                                                                                                                                                                                           
+_HWSTACK_LOW                      2079                                                                                                                                                                                                                                                           
+_SWSTACK_LOW                      2016                                                                                                                                                                                                                                                           
+_FRAME_HIGH                       2016                                                                                                                                                                                                                                                           
 IR_ADRESS                        0                                                                                                                                                                                                                                                               
 BTN_MUTE                         13                                                                                                                                                                                                                                                              
 BTN_POWER                        12                                                                                                                                                                                                                                                              
@@ -487,6 +487,7 @@ BTN_NORMAL                       60
 управление_пультом               1                                                                                                                                                                                                                                                               
 движение_улиткой                 2                                                                                                                                                                                                                                                               
 поиск_станции                    3                                                                                                                                                                                                                                                               
+команда_пуста                    0                                                                                                                                                                                                                                                               
 команда_старт                    1                                                                                                                                                                                                                                                               
 улитка_прибавка_скорости         10                                                                                                                                                                                                                                                              
 улитка_разбалансировка           10                                                                                                                                                                                                                                                              
@@ -517,139 +518,3 @@ ADC_TEMP                         not used
 AKB                              not used
 ERRBYTE                          not used
 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  178 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  179 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  180 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  181 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  181 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  182 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  182 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  182 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  182 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  182 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  183 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  184 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  185 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  185 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  185 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  185 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  186 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  186 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  187 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  188 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  188 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  189 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  190 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  191 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  192 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  193 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  194 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  195 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  195 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  196 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  197 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  198 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  199 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  201 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  202 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  202 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  202 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  202 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  202 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  203 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  203 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  203 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  203 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  204 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  205 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  206 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  207 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  207 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  208 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  208 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  208 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  208 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  208 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  209 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  210 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  211 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  211 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  211 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  211 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  212 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  212 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  213 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  214 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  214 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  215 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  216 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  217 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  218 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  219 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  220 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  221 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  221 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  222 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  223 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  224 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  225 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  227 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  228 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  229 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  230 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  231 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  232 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  233 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  234 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  235 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  236 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  237 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  238 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  239 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  240 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  241 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  242 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  244 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  245 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  246 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  247 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  248 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  249 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  250 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  251 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  252 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  253 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  254 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  255 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  256 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  257 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  258 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  259 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  260 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  261 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  261 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  261 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  261 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  262 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  262 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  263 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  265 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  265 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  265 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  265 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  266 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  266 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  268 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  269 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  270 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  271 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  272 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  273 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  274 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  275 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  276 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  277 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  278 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  279 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  280 
-STATEMENT NOT ALLOWED AFTER FUNCTION ASSIGNMENT  in line  282 
