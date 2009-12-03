@@ -1,0 +1,495 @@
+Comment = Compiled LIB file, no comment included
+
+copyright = MCS Electronics
+www       = http://www.mcselec.com
+email     = avr@mcselec.com
+comment   = EPSON color display driver LCD-Nokia3510i_EPSON.LIB
+comment   = адаптировал Сергей Черников 2008г.
+libversion   = 1.11.9.0
+date         = 2008
+statement    = No SOURCE code from the library may be distributed in any form
+statement    = Of course this does not apply for the COMPILED code when you have a BASCOM-AVR license
+history      = No known bugs.
+[_GLCD]
+$EXTERNAL _MUL8
+_Set_Display:
+Lcd_init:
+*  cbi _glcd_portm,_glcd_Reset
+.OBJ E085
+.OBJ 2799
+*  Call _Waitms
+*  sbi _glcd_portm,_glcd_ReSet
+*  sbi _glcd_portm,_glcd_CS
+*  sbi _glcd_portm,_glcd_sda
+*  sbi _glcd_portm,_glcd_scl
+.OBJ E081
+   rcall _Gwrite_Cmd
+.OBJ E181
+   rcall _gwrite_Cmd
+.OBJ E281
+   rcall _gwrite_Cmd
+.OBJ E285
+   rcall _Gwrite_Cmd
+.OBJ E38F
+   rcall _gwrite_data
+.OBJ E289
+   rcall _Gwrite_Cmd
+.OBJ E083
+   rcall _Gwrite_Cmd
+.OBJ E288
+.OBJ 2799
+*  Call _Waitms
+.OBJ E38A
+   rcall _gwrite_cmd
+.OBJ E082
+   rcall _gwrite_data
+.OBJ E28D
+   rcall _gwrite_Cmd
+*  ldi r30,low(_lcd_init_data * 2)
+*  ldi r31,high(_lcd_init_data * 2)
+.OBJ E114
+_lcd_init_lp:
+   call _lpmbyte
+.OBJ 2D80
+   rcall _gwrite_data
+.OBJ 951A
+   brne _Lcd_init_lp
+.OBJ E28C
+   rcall _Gwrite_Cmd
+.OBJ 9508
+_lcd_init_data:
+.db &H00 , &H02 , &H04 , &H06 , &H09 , &H0B , &H0D , &H0F, &H00 , &H02 , &H04 , &H06 , &H09 , &H0B , &H0D , &H0F, &H00 , &H04 , &H0B , &H0F
+_Gwrite_Data:
+* Cbi _glcd_portm, _glcd_cs
+* Cbi _glcd_portm, _glcd_scl
+* Sbi _glcd_portm, _GLCD_SDA
+_Gwrite_DataMisc:
+* Sbi _glcd_portm, _glcd_scl
+.OBJ 932F
+.OBJ E028
+_Gwrite_DataMisc3:
+.OBJ 1F88
+  brcc  Gwrite_DataMisc1
+* Sbi _glcd_portm, _glcd_sda
+  Rjmp Gwrite_DataMisc2
+Gwrite_DataMisc1:
+* Cbi _glcd_portm, _glcd_sda
+Gwrite_DataMisc2:
+* Cbi _glcd_portm, _glcd_scl
+* Sbi _glcd_portm, _glcd_scl
+.OBJ 952A
+  Brne _Gwrite_DataMisc3
+* Sbi _glcd_portm, _glcd_cs
+.OBJ 912F
+.OBJ 9508
+_Gwrite_Cmd:
+* Cbi _glcd_portm, _glcd_cs
+* Cbi _glcd_portm, _glcd_scl
+* cbi _glcd_portm,_GLCD_SDA
+  Rjmp _Gwrite_DataMisc
+_Window:
+.OBJ E28A
+   rcall _gwrite_cmd
+.OBJ 9189
+   rcall _gwrite_data
+.OBJ 9189
+   rcall _gwrite_data
+.OBJ E28B
+   rcall _gwrite_cmd
+.OBJ 9189
+   rcall _gwrite_data
+.OBJ 9189
+   rcall _gwrite_data
+.OBJ E28C
+rjmp _gwrite_cmd
+[_BOX]
+_BOX:
+.OBJ 8189
+.OBJ 2F48
+.OBJ 938A
+.OBJ 818C
+.OBJ 938A
+.OBJ 1B48
+.OBJ 9543
+.OBJ 818C
+.OBJ 2F08
+.OBJ 938A
+.OBJ 818F
+.OBJ 938A
+.OBJ 1B08
+.OBJ 9503
+   rcall _window
+   call _mul8
+_Box_lp:
+.OBJ 8188
+   rcall _gwrite_data
+.OBJ 5041
+.OBJ 4050
+   brne _box_lp
+.OBJ 9625
+.OBJ 9508
+_Clear_Graph:
+_Clear_Text:
+.OBJ 2788
+.OBJ 938A
+.OBJ 938A
+.OBJ E681
+.OBJ 938A
+.OBJ E483
+.OBJ 938A
+.OBJ EF8F
+.OBJ 938A
+Rjmp _Box
+_gwrite_lcdchar:
+$EXTERNAL _LPMBYTE, _MUL8
+.OBJ 93EF
+.OBJ 93FF
+* Lds r30 ,{___fonttable}
+* Lds r31 ,{___fonttable +1}
+*#IF _CHIP=20 or _CHIP=21 OR _CHIP=10
+*  Clr r0
+*  lsl R30
+*  Rol r31
+*  Rol R0
+*  Out RAMPZ, R0
+*#ENDIF
+* Lds r2,{___FGCOLOR}
+* Lds r3,{___BGCOLOR}
+  call _lpmbyte
+.OBJ 2D20
+  call _lpmbyte
+.OBJ 2D30
+  call _lpmbyte
+.OBJ 2D00
+.OBJ 930A
+.OBJ 9631
+.OBJ 5280
+.OBJ 2F48
+  call _mul8
+.OBJ FE4
+.OBJ 1FF5
+.OBJ E008
+.OBJ 2F42
+  call _mul8
+* lds r24,{___lcdrow}
+.OBJ F48
+.OBJ 954A
+.OBJ 934A
+.OBJ 938A
+* lds r24,{___lcdcol}
+.OBJ 2F08
+.OBJ F03
+* sts {___lcdcol},r16
+.OBJ F38
+.OBJ 953A
+.OBJ 933A
+.OBJ 938A
+  rcall _window
+.OBJ 9149
+_gwrite_lcdchar1:
+   call _lpmbyte
+.OBJ E008
+kllp:
+.OBJ 9406
+.OBJ 2D83
+  brcc _gwrite_lcdchar2
+.OBJ 2D82
+_gwrite_lcdchar2:
+  rcall _GWrite_data
+.OBJ 950A
+  brne kllp
+.OBJ 954A
+  brne _gwrite_lcdchar1
+.OBJ 91FF
+.OBJ 91EF
+.OBJ 9508
+[END]
+[_GPixel]
+$EXTERNAL _DIV8, _MUL8
+_Gpixel:
+.OBJ 9543
+.OBJ 9553
+.OBJ 935A
+.OBJ 935A
+.OBJ 934A
+.OBJ 934A
+   rcall _window
+.OBJ 2F89
+   rjmp _gwrite_data
+[END]
+[_GetByteFromROM_EPROM]
+$EXTERNAL _READEEPROM , _LPMBYTE
+_GetByteFromROM:
+.OBJ 2377
+  Breq _GetByteFromROM1
+.OBJ 27AA
+.OBJ 27BB
+  jmp _ReadEEPROM1
+_GetByteFromROM1:
+  jmp _LpmByte
+[END]
+[_ShowPicture]
+$EXTERNAL _GetByteFromROM_EPROM
+_ShowPicture:
+.OBJ 2411
+.OBJ 2422
+.OBJ 2433
+.OBJ 9179
+.OBJ 9109
+.OBJ 9119
+ call _GetByteFromROM
+.OBJ E00
+.OBJ 920A
+.OBJ 9503
+.OBJ 930A
+ call _GetByteFromROM
+.OBJ E01
+.OBJ 920A
+.OBJ 9513
+.OBJ 931A
+ rcall _window
+ call _GetByteFromROM
+.OBJ 2D00
+ call _GetByteFromROM
+.OBJ 2D10
+_ShowPicture2:
+.OBJ 1413
+  brne _ShowPicture8
+  call _GetByteFromROM
+.OBJ 2C20
+.OBJ 2D80
+.OBJ 3A8A
+  breq _ShowPicture9
+  call _GetByteFromROM
+.OBJ 2D80
+.OBJ 3A8A
+  breq _ShowPicture10
+.OBJ 9731
+* #IF _CHIP = 10  or _CHIP=20 or _CHIP=21  or _CHIP=40
+*  brcc _ShowPicture2c
+*  In r24, RAMPZ
+*  Dec R24
+*  Out RAMPZ, R24
+_ShowPicture2c:
+* #ENDIF
+  rjmp _ShowPicture11
+_ShowPicture9:
+.OBJ 9631
+  rjmp _ShowPicture11
+_ShowPicture8:
+.OBJ 941A
+  breq _showpicture2
+  rjmp _ShowPicture11
+_ShowPicture10:
+  call _GetByteFromROM
+.OBJ 2D80
+.OBJ 2388
+  Brne _showpicture15
+.OBJ 9732
+  Rjmp _showpicture11
+_showpicture15:
+.OBJ 2C10
+_ShowPicture11:
+.OBJ 2D82
+  rcall _Gwrite_Data
+.OBJ 5001
+.OBJ 4010
+  brne _ShowPicture2
+.OBJ 9508
+[END]
+[_GLINE]
+$EXTERNAL _GPIXEL
+_gline:
+.OBJ 24AA
+.OBJ 24BB
+.OBJ 24FF
+.OBJ 81EC
+.OBJ 80EA
+.OBJ 1AEE
+.OBJ 8FF
+.OBJ 81FB
+.OBJ 8029
+.OBJ 2433
+.OBJ 1A2F
+.OBJ 833
+.OBJ E081
+.OBJ 14EA
+.OBJ 4FA
+  brge _line1
+.OBJ EF2F
+.OBJ EF3F
+.OBJ 94E0
+.OBJ 94F0
+.OBJ EE8
+.OBJ 1CFA
+  rjmp _line1a
+_line1:
+.OBJ E021
+.OBJ 2733
+_line1a:
+.OBJ 142A
+.OBJ 43A
+  brge _line2
+.OBJ EF6F
+.OBJ EF7F
+.OBJ 9420
+.OBJ 9430
+.OBJ E28
+.OBJ 1C3A
+  rjmp _line2a
+_line2:
+.OBJ E061
+.OBJ 2777
+_line2a:
+  rcall _line10
+.OBJ 142E
+.OBJ 43F
+  brlt _line3
+  breq _line3
+  rjmp _line4
+_line3:
+.OBJ 2CCE
+.OBJ 2CDF
+.OBJ CCC
+.OBJ 1CDD
+.OBJ 2C02
+.OBJ 2C13
+.OBJ C00
+.OBJ 1C11
+_line4a:
+.OBJ 819A
+.OBJ 17E9
+  breq _line4
+_line5:
+.OBJ FE2
+.OBJ CA0
+.OBJ 1CB1
+.OBJ 14AE
+.OBJ 4BF
+  brlt _line6
+  breq _line6
+.OBJ FF6
+.OBJ 18AC
+.OBJ 8BD
+_line6:
+  rcall _line10
+  rjmp  _line4a
+_line4:
+.OBJ 2CC2
+.OBJ 2CD3
+.OBJ CCC
+.OBJ 1CDD
+.OBJ 2C0E
+.OBJ 2C1F
+.OBJ C00
+.OBJ 1C11
+_line9:
+.OBJ 8199
+.OBJ 17F9
+  brne _LINE7
+.OBJ 9625
+.OBJ 9508
+_line7:
+.OBJ FF6
+.OBJ CA0
+.OBJ 1CB1
+.OBJ 14A2
+.OBJ 4B3
+  brlt _line8
+  breq _line8
+.OBJ FE2
+.OBJ 18AC
+.OBJ 8BD
+_line8:
+  rcall _line10
+rjmp _line9
+_line10:
+.OBJ 2F4E
+.OBJ 2F5F
+.OBJ 8198
+rjmp _gpixel
+[END]
+[_BCOS]
+$EXTERNAL _LPMBYTE , _MUL8
+_bCos:
+.OBJ 9541
+   breq _bsin9a
+_bSin:
+.OBJ 2F84
+.OBJ 7F80
+.OBJ 2F98
+.OBJ 9592
+*  ldi zl, low(_bsin_table*2)
+*  ldi zh, high(_bsin_table*2)
+.OBJ FE9
+.OBJ 2799
+.OBJ 1FF9
+   call _LPMByte
+.OBJ 2D90
+.OBJ 1784
+   breq _bsin9
+   call _LPMByte
+.OBJ 2D00
+.OBJ 1B09
+.OBJ 1B48
+.OBJ 9542
+   call _mul8
+.OBJ 1F44
+.OBJ 1F95
+_bsin9:
+.OBJ 9508
+_bsin9a:
+.OBJ EF9F
+.OBJ 9508
+_bsin_table:
+.db 0 , 25 , 50 , 74 , 98 , 120 , 142 , 162 , 180 , 197 , 212 , 225 , 236 , 244 , 250 , 254 , 255
+[END]
+[_Circle]
+_Circle:
+$EXTERNAL _BCOS , _MUL8 ,_GPIXEL
+.OBJ 2722
+_circle1:
+.OBJ 8138
+.OBJ 8149
+.OBJ 815A
+.OBJ 9533
+.OBJ 2EC4
+.OBJ 2ED4
+.OBJ 2EE5
+.OBJ 2EF5
+.OBJ 2F42
+   rcall _bcos
+.OBJ 2F49
+.OBJ 2F03
+   call _Mul8
+.OBJ 1AC5
+.OBJ ED5
+.OBJ 2F42
+   rcall _bsin
+.OBJ 2F49
+.OBJ 2F03
+   call _mul8
+.OBJ 1AE5
+.OBJ EF5
+.OBJ 819B
+.OBJ 2D4D
+.OBJ 2D5E
+   rcall _GPixel
+.OBJ 819B
+.OBJ 2D4C
+.OBJ 2D5E
+   rcall _Gpixel
+.OBJ 819B
+.OBJ 2D4C
+.OBJ 2D5F
+   rcall _Gpixel
+.OBJ 819B
+.OBJ 2D5F
+.OBJ 2D4D
+   rcall _Gpixel
+.OBJ 5F2E
+.OBJ 3F2E
+   brlo _circle1
+.OBJ 9624
+.OBJ 9508
+[END]

@@ -1,0 +1,368 @@
+Copyright = Mcs Electronics/Vögel Franz Josef
+Www = Http://Www.mcselec.com / http://members.aon.at/voegel
+Email = Avr@mcselec.com
+Comment = Mmc Driver For Avr-dos Compiler Library
+Libversion = 2.00
+Date = 25 April 2005
+Statement = No Source Code From The Library May Be Distributed In Any Form Unless You Have Permision From The Author
+Statement = For support please check http://members.aon.at/voegel for contact address
+History = No Known Bugs.
+
+
+[_mmc]
+; Error conditions:
+; 225: Error response Byte at Reset command
+; 226: Error response Byte at Init Command
+; 227: Error response Byte at Read Command
+; 228: Error response Byte at Write Command
+; 229: No Data response Byte from MMC at Read
+; 230: No Data response Byte from MMC at Write
+
+
+_mmc_send_command:
+*BASIC: Reset Mmc_cs                                     ' reset Cs
+   rcall _Byte2SPI                                ; Send CMD
+   mov r16,r23                                    ; send MSB first
+   rcall _Byte2SPI
+   mov r16,r22
+   rcall _Byte2SPI
+   mov r16,r21
+   rcall _byte2spi
+   mov r16,r20                                    ; LSB last
+   rcall _byte2spi
+; now falls into get response
+
+
+_mmc_getresponse:
+; Wait for non &HFF response
+; Not getting Byte: T-Flag set
+  push r17
+  push r18
+  ;ldi r17, 64                     ; ask 64 times for response
+  clr r17
+  clr r18
+  clt                             ; clear low level error flag
+_mmc_getresponse1:
+  rcall _Byte2SPI_255
+  cpi r16, &HFF
+  brne _MMC_GetResponse2
+  subi r17, 1
+  sbci r18, 0
+  brne _MMC_GetResponse1
+  set
+_mmc_getresponse2:
+  pop r18
+  pop r17
+  tst r16                        ; set Z-Flag if Response = 0, do not affect C-Flag
+  ret
+
+
+
+_mmc_reset:
+*BASIC: Set Mmc_cs                                       ' Set CS HIGH
+   ldi r17,10                                       ; Clock Counter, 80 pulses with CS high
+_mmc_reset_0:
+   rcall _Byte2SPI_255
+   dec r17                                          ; send 80 clock pulses
+   Brne _MMC_Reset_0
+
+*BASIC: Reset Mmc_cs                                     ' Reset Cs to LOW
+   ldi r16,64                                       ; Send CMD0
+   rcall _Byte2SPI
+   rcall _Byte2SPI_0
+   rcall _Byte2SPI_0
+   rcall _Byte2SPI_0
+   rcall _Byte2SPI_0
+   ldi r16,149                                     ; first command needs proper CRC Byte
+   rcall _Byte2SPI
+
+   ldi r17, 100                                     ; try 100 times to get proper response
+_mmc_reset1:
+   rcall _MMC_GetResponse
+   cpi r16, 1                                      ; 1 is proper response after reset
+   breq _MMC_Reset2
+   dec r17
+   brne _MMC_Reset1
+ * Ldi R25 , Cperrdrivereset
+   rjmp _MMC_Exit_Error
+_mmc_reset2:
+   rjmp _MMC_Exit_Standard
+
+
+
+;---[_MMC_Init]------------------------------------------------------------------
+; Init the MMC-Card
+_mmc_init0:
+   ldi r17,10                                     ; try 10 times to init
+_mmc_init1:
+*BASIC: Reset Mmc_cs                                     ' Reset CS
+   ldi r16,65   ; CMD1
+   rcall   _Byte2SPI
+   rcall   _Byte2SPI_0
+   rcall   _Byte2SPI_0
+   rcall   _Byte2SPI_0
+   rcall   _Byte2SPI_0
+   rcall _MMC_GetResponse
+   breq _MMC_Init3                                 ; response Byte is zero?
+_mmc_init2:
+   rcall _MMC_Exit_Standard                        ; deactivate MMC_CS for new try
+*BASIC: Waitms 50
+   dec r17
+   brne _MMC_Init1
+ * Ldi R25 , Cperrdriveinit
+   rjmp _MMC_Exit_Error
+_mmc_init3:
+   rjmp _MMC_Exit_Standard
+
+
+*#IF cMMC_Soft = 1
+
+
+_byte2spi_255:
+   ser r16
+   rjmp _Byte2SPI
+_Byte2SPI_0:
+   clr r16
+_Byte2SPI:
+   push r19                               ; scratch register
+   push r18                               ; bit loop counter
+   push r17                               ; income Byte
+   clr r17
+   ldi r18, 8                             ; 8 Bits to receive
+_Byte2SPI_Loop:
+   lsl r17
+   lsl r16                                ; byte to send
+   brcs _Byte2SPI_1
+ * cbi MMC_PortMOSI, bMMC_MOSI
+   rjmp _Byte2SPI_Clock
+_Byte2SPI_1:
+ * sbi MMC_PortMOSI, bMMC_MOSI
+_Byte2SPI_Clock:
+ * in r19, MMC_PortMISO
+ * sbi MMC_PortSCK, bMMC_SCK
+   nop
+   nop
+   nop
+ * cbi MMC_PortSCK, bMMC_SCK
+;   nop                                   ; following code have enough delay
+;   nop
+;   nop
+ * sbrc r19, bMMC_MISO
+   inc r17
+   dec r18
+   brne _Byte2SPI_Loop
+   mov r16, r17                           ; return value
+   pop r17
+   pop r18
+   pop r19
+   ret
+
+*#ELSE
+
+_byte2spi_255:
+   ser r16                              ; send 255
+   rjmp _Byte2SPI
+_byte2spi_0:
+   Clr r16                              ; send 0
+_byte2spi:
+ * Out Spdr , R16
+_byte2spi2:
+ * Sbis Spsr , 7 ; Wait For Spif
+   rjmp _byte2spi2
+ * In R16 , Spdr
+   ret
+*#ENDIF
+
+
+
+_shift_mmc:
+   clr r20
+   ld r21,x+   ;LSB
+   ld r22,x+
+   ld r23,x+
+
+   lsl r21
+   rol r22
+   rol r23
+   ret
+
+[_drivereadsector]
+;---[_MMC_ReadSector]----------------------------------------------------------
+; Read Sector(s) from MMC-Card to SRAM
+; Entry with following parameters set:
+; Register X: Pointer to Sectornumber (LONG)
+; Register Z: SRAM-Address, where the data to transfer
+_drivereadsector:
+_mmc_readsector:
+   rcall _DriveClearErrorBytes
+   rcall _Shift_MMC
+   ldi r16,$51
+   rcall _MMC_Send_Command
+   breq _MMC_ReadSector1                  ; response = 0?
+ * Ldi R25 , Cperrdrivereadcommand
+   rjmp _MMC_Exit_Error
+
+_mmc_readsector1:
+   rcall _MMC_GetResponse
+   cpi r16, &HFE                          ; get data response byte
+   breq _MMC_ReadSector2
+ * Ldi R25 , Cperrdrivereadresponse
+   rjmp _MMC_Exit_Error
+
+_mmc_readsector2:
+   ldi r25,2                              ; 512 bytes to read
+   clr r24
+_mmc_readsector3:
+   rcall _byte2spi_255
+   st z+,r16
+   sbiw r24,1
+   brne _MMC_ReadSector3
+   rcall _byte2spi_255                    ; read first crc byte
+   rcall _byte2spi_255                    ; read second crc byte
+   rjmp _MMC_Exit_Standard
+
+
+
+
+[_drivewritesector]
+; write Sector(s) to MMC-Card
+; Entry with following parameter set:
+; Register X: Pointer to Sectornumber (LONG)
+; Register Z: SRAM-Address, at which Data to transfer starts
+_drivewritesector:
+_mmc_writesector:
+   rcall _DriveClearErrorBytes
+   rcall _Shift_MMC
+   ldi r16,88                          ; write
+   rcall _MMC_Send_Command
+   breq _MMC_WriteSector1              ; Response = 0?
+ * Ldi R25 , Cperrdrivewritecommand
+   rjmp _MMC_Exit_Error
+
+_mmc_writesector1:
+   rcall _byte2spi_255
+   ldi r16,254
+   rcall _byte2spi
+   ldi r25,2                           ; counter for 512 bytes
+   clr r24
+_mmc_writesector2:
+   ld r16,z+
+   rcall _byte2spi
+   Sbiw r24,1
+   brne _MMC_WriteSector2
+                                       ; dummy crc bytes
+   rcall _byte2spi_255
+   rcall _byte2spi_255
+_mmc_writesector3:
+   rcall _Byte2SPI_255                 ; read Data response byte (=xxx00101b)
+   andi r16, &H1F
+   sts {gbDriveDebug}, r16             ; save Data response byte for debug
+   clr r17
+   ldi r18, 255                         ; 10000 * 10µSec = 100mSec wait for writing down
+_mmc_writesector4:
+   rcall _DriveWaitUS10
+   rcall _Byte2SPI_255
+   tst r16                             ; end of busy
+   brne _MMC_WriteSector5
+   subi r17, 1
+   sbci r18, 0
+   brne _MMC_WriteSector4              ; Wait ~ 65536 * 25 Cycles for end of busy
+                                       ; ~ 100mSec at 16MHz Crystal, should be long enough
+ * Ldi R25 , Cperrdrivewriteresponse
+   rjmp _MMC_Exit_Error
+_mmc_writesector5:
+   rjmp _MMC_Exit_Standard
+
+
+
+[_driveinit]
+;---[_DriveInit]----------------------------------------------------------------
+; Setup the pins needed for the CF-Card
+_driveinit:
+_mmc_init:
+*#IF cMMC_Soft = 0
+*BASIC: Spiinit
+*#ENDIF
+   rcall _DriveClearErrorBytes
+   rcall _MMC_Reset
+   brcc _DriveInit1
+   ret
+_driveinit1:
+   rjmp _MMC_Init0
+
+
+[_drivereset]
+;---[_DriveReset]---------------------------------------------------------------
+; force MMC-Card to a Hardware-reset
+_drivereset:
+   rcall _DriveClearErrorBytes
+   rjmp _MMC_Reset
+
+
+
+
+[_drivecheck]
+;---[_DriveCheck]---------------------------------------------------------------
+; Checks, whether Card is plugged in: not yet supported with this driver
+; if OK r24 = 1; otherwise 0
+_drivecheck:
+   rcall _DriveClearErrorBytes
+   ldi r24, 1
+   rjmp _MMC_Exit_Standard1
+
+
+[_drivegetidentity]
+_drivegetidentity:
+   rcall _DriveClearErrorBytes
+ * Ldi R25 , Cperrdrivenotsupported
+   rjmp _driveSetError
+
+
+
+_driveclearerrorbytes:
+; clear all drive according error bytes
+   clr r25
+   clc
+ * Sts {gbdriveerror} , R25
+ * Sts {gbdrivestatusreg} , R25
+ * Sts {gbdriveerrorreg} , R25
+   ret
+
+
+
+_mmc_exit_standard:
+*BASIC: Set Mmc_cs
+   rcall _Byte2SPI_255                          ; send 255
+_mmc_exit_standard1:
+   clr r25                                      ; clear error byte
+   clc                                          ; clear error flag
+   ret
+
+
+
+_mmc_exit_error:
+   rcall _DriveSetError
+*BASIC: Set Mmc_cs
+   rcall _Byte2SPI_255
+   sec                                          ; set error flag
+   ret
+
+
+
+; Entry with Error-Code in r25
+; Last response from mmc in r16
+_driveseterror:
+ * Sts {gbdriveerror} , R25
+ * Sts {gbdrivestatusreg} , R16
+   sec                                        ; Error flag for AVR-DOS
+   ret
+
+
+_DriveWaitUS10:
+* ldi r25, ( ( _XTAL * 10 ) / 3000000 )                 ; 1 loop needs 3 cycles
+_DriveWaitUS10a:
+  dec r25
+  brne _DriveWaitUS10a
+  ret
+
+[end]
