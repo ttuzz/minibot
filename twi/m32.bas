@@ -16,7 +16,7 @@ Config Sda = Portc.1                                        ' лииния данных
 Config Com1 = Dummy , Synchrone = 1 , Parity = None , Stopbits = 1 , Databits = 8 , Clockpol = 0
 
 I2cinit                                                     ' we need to set the pins in the proper state
-Config Twi = 400000                                         ' wanted clock frequency
+Config Twi = 100000                                         ' wanted clock frequency
 'will set TWBR and TWSR
 'Twbr = 12 'bit rate register
 'Twsr = 0 'pre scaler bits

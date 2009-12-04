@@ -2,12 +2,10 @@
   Программа для приема 3х байтных пакетов через Twi
 ')
 
-$regfile = "M8def.dat"
+$regfile = "m88def.dat"
 $crystal = 7372800
 $baud = 9600
 Config Serialin = Buffered , Size = 20
-
-Waitms 100
 
 Const Max_buf_len = 10                                      ' максимальный размер буфера(пакета)
 Dim Buf(max_buf_len) As Byte
