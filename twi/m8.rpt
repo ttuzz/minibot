@@ -1,6 +1,6 @@
 Report       : m8
 Date         : 12-05-2009
-Time         : 01:03:34
+Time         : 20:31:39
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M88
@@ -8,9 +8,9 @@ SRAM         : 400 hex
 EEPROM       : 200 hex
 ROMSIZE      : 2000 hex
 
-ROMIMAGE     : 46C hex  -> Will fit into ROM
-ROMIMAGE     :  1132 dec
-FLASH USED   :  13  %
+ROMIMAGE     : 51A hex  -> Will fit into ROM
+ROMIMAGE     :  1306 dec
+FLASH USED   :  15  %
 BAUD         : 9600 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
@@ -21,7 +21,7 @@ S-Stacksize  : 8 hex
 S-Stackstart : 4E0 hex
 Framesize    : 18 hex
 Framestart   : 4C7 hex
-Space left   :  910  dec
+Space left   :  912  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -67,14 +67,13 @@ PWM0B                            Byte              0048          72
 PWM2A                            Byte              00B3          179 
 PWM2B                            Byte              00B4          180 
 ERR                              Bit               0006          6 
-BUF                              Byte (10)         0117          279 
-BUF_LEN                          Byte              0121          289 
-BUF_TO_SEND                      Byte (10)         0122          290 
-BUF_TO_SEND_LEN                  Byte              012C          300 
-NEW_MSG                          Byte              012D          301 
-TWI_CONTROL                      Byte              012E          302 
-TWI_STATUS                       Byte              012F          303 
-TWI_DATA                         Byte              0130          304 
+TWI_BUSY                         Bit               0117          279 
+MSG                              Byte (10)         0118          280 
+MSG_LEN                          Byte              0122          290 
+MSG_NEW                          Bit               0117          279 
+MSG_OUT                          Byte (10)         0123          291 
+MSG_OUT_LEN                      Byte              012D          301 
+TWI_STATUS                       Byte              012E          302 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -576,8 +575,10 @@ _FRAME_HIGH                       1240
 _RS232_BUFSIZE0                  20                                                                                                                                                                                                                                                              
 _RS232_BUFSIZE_IN0P1             21                                                                                                                                                                                                                                                              
 _CHECKCHAR0                      0                                                                                                                                                                                                                                                               
-MAX_BUF_LEN                      10                                                                                                                                                                                                                                                              
 TWI_SLAVE_ADR                    &B01110000                                                                                                                                                                                                                                                      
+MAX_MSG_LEN                      10                                                                                                                                                                                                                                                              
+MSG_EXPECT_LEN                   3                                                                                                                                                                                                                                                               
+MAX_OUT_LEN                      10                                                                                                                                                                                                                                                              
 
 
 --------------------------------------------------------------------------------
@@ -598,5 +599,4 @@ PWM0A                            not used
 PWM0B                            not used
 PWM2A                            not used
 PWM2B                            not used
-TWI_CONTROL                      not used
 
