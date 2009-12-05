@@ -10,7 +10,7 @@ $framesize = 64
 $lib "i2c_twi.lbx"                                          ' библиотека для хардварного TWI, мастер
 
                                                      ' we need to set the pins in the proper state
-Config Twi = 50000                                          ' wanted clock frequency
+Config Twi = 15000                                          ' wanted clock frequency
 Config Scl = Portc.0                                        ' линия клока
 Config Sda = Portc.1                                        ' лииния данных
 I2cinit
@@ -57,14 +57,24 @@ Do
    B(2) = "W"                                               ' Servo Write Byte
    B(3) = "B"
    I2csend &B01110000 , B(1) , 3                            ' send the value
-   Print "Error : " ; Err                                   ' show error status
-   Print "--sended"
-   Waitms 100
+   'Print "Error : " ; Err                                   ' show error status
+   'Print "--sended"
+   S = Str(err) + " --sended"
+   Lcdat Y_pos , 1 , S , Black , White
+   Y_pos = Y_pos + Font_height
+   Y_pos = Y_pos + Font_height
+   If Y_pos > Display_height Then
+      Y_pos = 0
+      Cls
+   Else
+      Y_pos = Y_pos - Font_height
+   End If
+   Wait 1
 
 '(
    R(1) = &HFF
-   'I2creceive &B01110000 , R(1) , 0 , 3
-   S = ">" + "'" + Chr(r(1)) + Chr(r(2)) + Chr(r(3)) + "' " + Str(err)
+   I2creceive &B01110000 , R(1) , 0 , 1
+   S = "> " + Str(r(1)) + " " + Chr(r(1)) + " " + Str(err)
    Lcdat Y_pos , 1 , S , Black , White
    Y_pos = Y_pos + Font_height
    Y_pos = Y_pos + Font_height
