@@ -1,6 +1,6 @@
 Report       : m32
 Date         : 12-06-2009
-Time         : 13:09:13
+Time         : 18:46:31
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M32
@@ -8,9 +8,9 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : 288 hex  -> Will fit into ROM
-ROMIMAGE     :  648 dec
-FLASH USED   :  1  %
+ROMIMAGE     : C24 hex  -> Will fit into ROM
+ROMIMAGE     :  3108 dec
+FLASH USED   :  9  %
 BAUD         : 9600 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
@@ -21,7 +21,7 @@ S-Stacksize  : 40 hex
 S-Stackstart : 820 hex
 Framesize    : 40 hex
 Framestart   : 7DF hex
-Space left   :  1831  dec
+Space left   :  1824  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -66,8 +66,10 @@ PWM1B                            Word              0048          72
 COMPARE1B                        Word              0048          72 
 PWM0                             Byte              005C          92 
 ERR                              Bit               0006          6 
-SERVO                            Byte (1)          0062          98 
-S                                String            0063          99 
+Y_POS                            Byte              0067          103 
+S                                String            0068          104 
+TRANSFER_COUNTER                 Byte              007D          125 
+BUF                              Byte              007E          126 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -433,6 +435,21 @@ _UARTS                           1
 _HWSTACK_LOW                      2079                                                                                                                                                                                                                                                           
 _SWSTACK_LOW                      2016                                                                                                                                                                                                                                                           
 _FRAME_HIGH                       2016                                                                                                                                                                                                                                                           
+_GLCD_PORTM                      &H15                                                                                                                                                                                                                                                            
+BLUE                             &B00000011                                                                                                                                                                                                                                                      
+YELLOW                           &B11111100                                                                                                                                                                                                                                                      
+RED                              &B11100000                                                                                                                                                                                                                                                      
+GREEN                            &B00011100                                                                                                                                                                                                                                                      
+BLACK                            &B00000000                                                                                                                                                                                                                                                      
+WHITE                            &B11111111                                                                                                                                                                                                                                                      
+BRIGHTGREEN                      &B00111110                                                                                                                                                                                                                                                      
+DARKGREEN                        &B00010100                                                                                                                                                                                                                                                      
+DARKRED                          &B10100000                                                                                                                                                                                                                                                      
+DARKBLUE                         &B00000010                                                                                                                                                                                                                                                      
+BRIGHTBLUE                       &B00011111                                                                                                                                                                                                                                                      
+ORANGE                           &B11111000                                                                                                                                                                                                                                                      
+FONT_HEIGHT                      8                                                                                                                                                                                                                                                               
+DISPLAY_HEIGHT                   67                                                                                                                                                                                                                                                              
 
 
 --------------------------------------------------------------------------------
@@ -452,5 +469,4 @@ COMPARE2                         not used
 ADCD                             not used
 COMPARE1                         not used
 PWM0                             not used
-SERVO                            not used
 
