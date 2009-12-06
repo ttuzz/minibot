@@ -1,7 +1,7 @@
 '(
-   Программа для приема пакетов по i2c, использет хардварный TWI.
-   ВНИМАНИЕ, ОБЩИЕ ВЫЗОВЫ НЕ ПОДДЕРЖИВАЮТСЯ,
-   ФЛАГ TWCG ДОЛЖЕН ВСЕГДА НАХОДИТСЯ В СБРОШЕННОМ СОСТОЯНИИ
+   Программа для приема пакетов по I2c , использет хардварный Twi.
+   ВНИМАНИЕ , ОБЩИЕ ВЫЗОВЫ НЕ ПОДДЕРЖИВАЮТСЯ,
+   ФЛАГ Twcg ДОЛЖЕН ВСЕГДА НАХОДИТСЯ В СБРОШЕННОМ СОСТОЯНИИ
 ')
 $regfile = "m88def.dat"
 $crystal = 7372800
@@ -121,13 +121,13 @@ Twi_int_slave_state_b8:
          Reset Twcr.twsto                                   ' это последний байт, NACK должен быть принят
          Reset Twcr.twea
       Else
-         Twdr = Msg_out(msg_out_len)                           ' загрузили байт данных
+         Twdr = Msg_out(msg_out_len)                        ' загрузили байт данных
          Decr Msg_out_len
          If Msg_out_len = 0 Then
-            Reset Twcr.twsto                                   ' это последний байт, NACK должен быть принят
+            Reset Twcr.twsto                                ' это последний байт, NACK должен быть принят
             Reset Twcr.twea
          Else
-            Reset Twcr.twsto                                   ' будет послан очередной байт данных
+            Reset Twcr.twsto                                ' будет послан очередной байт данных
             Set Twcr.twea
          End If
       End If

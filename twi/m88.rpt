@@ -1,6 +1,6 @@
-Report       : m8
-Date         : 12-05-2009
-Time         : 20:31:39
+Report       : m88
+Date         : 12-06-2009
+Time         : 13:54:07
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M88
@@ -8,9 +8,9 @@ SRAM         : 400 hex
 EEPROM       : 200 hex
 ROMSIZE      : 2000 hex
 
-ROMIMAGE     : 51A hex  -> Will fit into ROM
-ROMIMAGE     :  1306 dec
-FLASH USED   :  15  %
+ROMIMAGE     : 524 hex  -> Will fit into ROM
+ROMIMAGE     :  1316 dec
+FLASH USED   :  16  %
 BAUD         : 9600 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
