@@ -23,7 +23,8 @@ Const Brightblue = &B00011111
 Const Orange = &B11111000
 
 'Open "comc.1:9600,8,n,1" For Output As #12
-Open "comc.1:9600,8,n,1" For Input As #11
+'Open "comc.1:2400,8,n,1" For Input As #11
+Open "comc.0:2400,8,n,1" For Input As #11
 'Config Timer1 = Pwm , Pwm = 8 , Prescale = 1 , Compare A Pwm = Clear Down , Compare B Pwm = Clear Down
 'Config Rc5 = Pind.3                                         ' нагружаю таймеры
 

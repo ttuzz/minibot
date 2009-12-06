@@ -10,7 +10,7 @@ $framesize = 64
 
 
 'Open "comc.4:9600,8,n,1" For Input As #11
-Open "comc.4:9600,8,n,1" For Output As #10
+Open "comc.5:2400,8,n,1" For Output As #10
 
 
 Dim S As String * 20
