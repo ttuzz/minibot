@@ -1,6 +1,6 @@
 Report       : m32
-Date         : 08-31-2009
-Time         : 01:41:57
+Date         : 12-06-2009
+Time         : 13:09:13
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M32
@@ -8,8 +8,8 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : 190 hex  -> Will fit into ROM
-ROMIMAGE     :  400 dec
+ROMIMAGE     : 288 hex  -> Will fit into ROM
+ROMIMAGE     :  648 dec
 FLASH USED   :  1  %
 BAUD         : 9600 Baud
 XTAL         : 7372800 Hz
@@ -21,7 +21,7 @@ S-Stacksize  : 40 hex
 S-Stackstart : 820 hex
 Framesize    : 40 hex
 Framestart   : 7DF hex
-Space left   :  1834  dec
+Space left   :  1831  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -66,7 +66,8 @@ PWM1B                            Word              0048          72
 COMPARE1B                        Word              0048          72 
 PWM0                             Byte              005C          92 
 ERR                              Bit               0006          6 
-S                                String            0060          96 
+SERVO                            Byte (1)          0062          98 
+S                                String            0063          99 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -451,4 +452,5 @@ COMPARE2                         not used
 ADCD                             not used
 COMPARE1                         not used
 PWM0                             not used
+SERVO                            not used
 
