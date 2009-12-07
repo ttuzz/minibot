@@ -1,6 +1,6 @@
 Report       : m32
-Date         : 12-06-2009
-Time         : 13:09:13
+Date         : 12-07-2009
+Time         : 21:12:59
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M32
@@ -8,9 +8,9 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : 288 hex  -> Will fit into ROM
-ROMIMAGE     :  648 dec
-FLASH USED   :  1  %
+ROMIMAGE     : 2BA hex  -> Will fit into ROM
+ROMIMAGE     :  698 dec
+FLASH USED   :  2  %
 BAUD         : 9600 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
@@ -21,7 +21,7 @@ S-Stacksize  : 40 hex
 S-Stackstart : 820 hex
 Framesize    : 40 hex
 Framestart   : 7DF hex
-Space left   :  1831  dec
+Space left   :  1834  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -66,8 +66,7 @@ PWM1B                            Word              0048          72
 COMPARE1B                        Word              0048          72 
 PWM0                             Byte              005C          92 
 ERR                              Bit               0006          6 
-SERVO                            Byte (1)          0062          98 
-S                                String            0063          99 
+S                                String            0060          96 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -433,6 +432,9 @@ _UARTS                           1
 _HWSTACK_LOW                      2079                                                                                                                                                                                                                                                           
 _SWSTACK_LOW                      2016                                                                                                                                                                                                                                                           
 _FRAME_HIGH                       2016                                                                                                                                                                                                                                                           
+TIMERLOAD_AFTER_START            144                                                                                                                                                                                                                                                             
+TIMERLOAD_AFTER_BIT              83                                                                                                                                                                                                                                                              
+BYTES_AMOUNT                     4                                                                                                                                                                                                                                                               
 
 
 --------------------------------------------------------------------------------
@@ -452,5 +454,4 @@ COMPARE2                         not used
 ADCD                             not used
 COMPARE1                         not used
 PWM0                             not used
-SERVO                            not used
 
