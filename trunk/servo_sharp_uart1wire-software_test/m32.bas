@@ -6,31 +6,45 @@ $hwstack = 64
 $swstack = 64
 $framesize = 64
 
-Open "comc.1:9600,8,n,1" For Output As #10
-Close #10
-
 Declare Sub Input_m88(byref S As String)
    Const Timerload_after_start = 144                        'baudrate = 9600, prescaler = 8
    Const Timerload_after_bit = 83
-   Const Bytes_amount = 4                                   ' количество байт для приема
+   Const Bytes_amount = 3                                   ' количество байт для приема
 
 Dim S As String * 20
+Dim C As String * 1
+
 
 Enable Interrupts
 
-Do
-'(
-   Print ">" ;
-   Input S
-   Print #12 , S
+Dim Count As Byte : Count = 0
 
-   Print " out:";
-   Input #11 , S
-   Print S
-')
-   Call Input_m88(s)
-   Print S
+Dim W As Word
+
+Waitms 70
+Do
+   Incr Count
+   Open "comc.1:9600,8,n,1" For Output As #10
+      'Print #10 , "3Out" ;
+      Print #10 , "d1" ; Chr(count) ;
+   Close #10
    Waitms 10
+   Call Input_m88(s)
+      C = Mid(s , 2 , 1) : W = Asc(c) : Shift W , Left , 8
+      C = Mid(s , 3 , 1) : W = W + Asc(c)
+      C = Mid(s , 1 , 1)
+      Select Case C
+      Case "a":
+      Case "b":
+         W = W And &H00FF
+      Case "c":
+         W = W And &HFF00
+      Case "d":
+         W = 0
+      End Select
+      Print "m88_value: " ; W
+   'Print "m88_send: " ; S
+   'Waitms 1000
 Loop
 
 Sub Input_m88(byref S As String)

@@ -1,6 +1,6 @@
 Report       : main
-Date         : 11-28-2009
-Time         : 13:30:25
+Date         : 12-10-2009
+Time         : 21:02:44
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M32
@@ -8,10 +8,10 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : 68C hex  -> Will fit into ROM
-ROMIMAGE     :  1676 dec
-FLASH USED   :  5  %
-BAUD         : 115200 Baud
+ROMIMAGE     : 45E hex  -> Will fit into ROM
+ROMIMAGE     :  1118 dec
+FLASH USED   :  3  %
+BAUD         : 9600 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
 
@@ -21,7 +21,7 @@ S-Stacksize  : 8 hex
 S-Stackstart : 840 hex
 Framesize    : 18 hex
 Framestart   : 827 hex
-Space left   :  1972  dec
+Space left   :  1980  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -66,13 +66,9 @@ PWM1B                            Word              0048          72
 COMPARE1B                        Word              0048          72 
 PWM0                             Byte              005C          92 
 ERR                              Bit               0006          6 
-SPEED                            Byte              0060          96 
-ADDRESS_RC5                      Byte              0061          97 
-COMMAND_RC5                      Byte              0062          98 
-ADC_TEMP                         Word              0063          99 
-AKB                              Single            0065          101 
-ERRBYTE                          Byte              0069          105 
-Направление                      Byte              006A          106 
+ADDRESS_RC5                      Byte              0060          96 
+COMMAND_RC5                      Byte              0061          97 
+COUNT                            Byte              0062          98 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -468,7 +464,7 @@ BTN_SLEEP                        38
 BTN_TIME                         42                                                                                                                                                                                                                                                              
 BTN_RINGS                        36                                                                                                                                                                                                                                                              
 BTN_FIRST                        35                                                                                                                                                                                                                                                              
-BTN_FAST_FORWARD                 30                                                                                                                                                                                                                                                              
+BTN_FORW                         30                                                                                                                                                                                                                                                              
 BRN_BW                           46                                                                                                                                                                                                                                                              
 BTN_S                            55                                                                                                                                                                                                                                                              
 BTN_P                            54                                                                                                                                                                                                                                                              
@@ -477,7 +473,7 @@ BTN_I                            52
 BTN_QUESTION                     44                                                                                                                                                                                                                                                              
 BTN_STRETCH                      43                                                                                                                                                                                                                                                              
 BTN_SQUEEZE                      41                                                                                                                                                                                                                                                              
-BTN_DEF                          60                                                                                                                                                                                                                                                              
+BTN_NORMAL                       60                                                                                                                                                                                                                                                              
 
 
 --------------------------------------------------------------------------------
@@ -497,7 +493,4 @@ COMPARE2                         not used
 ADCD                             not used
 COMPARE1                         not used
 PWM0                             not used
-ADC_TEMP                         not used
-AKB                              not used
-ERRBYTE                          not used
 

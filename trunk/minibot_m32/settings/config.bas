@@ -5,8 +5,8 @@ Description : МиниБот 2.1
 Release Date : 2009 -01 -11
 Version : 1.0
 Author : Josef Franz Vogel - парсер входной строки
-Author : galex1981 - код для работы с IR пультом
-Author : MiBBiM - всё остальное
+Author : Galex1981 - код для работы с Ir пультом
+Author : Mibbim - всё остальное
 ')
 
 '**Константы железячной сборки**
@@ -96,7 +96,7 @@ Config Pinb.2 = Input : Power_in Alias Pinb.2
    ' размеры дисплея
    Const Display_width = 98
    Const Display_height = 67
-   ' частоиспользуемые цвета
+   ' часто используемые цвета
    Const Blue = &B00000011                                  'predefined contants are making programming easier
    Const Yellow = &B11111100
    Const Red = &B11100000
@@ -169,6 +169,7 @@ Config Pinb.2 = Input : Power_in Alias Pinb.2
    $include "settings\config_DOS.BAS"
 #endif
 
+
 '**Шлюз**
 'конфигурация шлюза
 Const Cptoken_max = 6                                       'максимальное количество токенов
@@ -181,10 +182,23 @@ Const Now_logging = 0                                       'лог в файл (обычное
 Const Now_recording = 1                                     'запись в *.bat
 Const Now_playing = 2                                       'проигрывание *.bat
 
+' константы-указатели вывода для функции print_ew
+Const P_d = 1                                               'Const P_disp = 1
+Const P_u = 2                                               'Const P_uart = 2
+Const P_l = 3                                               'Const P_log = 3
+Const P_d_u = 4                                             'Const P_disp_uart = 4
+Const P_d_l = 5                                             'Const P_disp_log = 5
+Const P_u_l = 6                                             'Const P_uart_log = 6
+Const P_d_u_l = 7                                           'Const P_disp_uart_log = 7
+
 'описатели глобальных переменных
 '  для парсера строки
 Dim Gstoken As String * Ctoken_len                          'содержит текущий токен
-Dim Gspcinput As String * Cpcinput_len                      'содержит пользовательский ввод(*.bat, uart)
+Dim Gsinput_ex As String * Cpcinput_len
+   ' перегрузки пользовательского ввода для вывода источника команды
+   Dim _buf_buf_arr(cpcinput_len) As Byte At Gsinput_ex Overlay       ' буфер массив, нужен только для перегрузки строки(см. объявление gsinput, gsinput_ex)
+   Dim Gsinput As String * Cpcinput_len At _buf_buf_arr(3) Overlay       'содержит пользовательский ввод(*.bat, uart)
+
 Dim Gbposstrparts(cptoken_max) As Byte                      'буферы, хранящие информацию
 Dim Gblenstrparts(cptoken_max) As Byte                      '  о распарсенной строке
 Dim Gbcnttoken As Byte                                      'количество найденных токенов
@@ -201,7 +215,7 @@ Dim State As Byte : State = Now_logging                     ' состояние шлюза
 
 #if Exist_sd = 1
    'Dim File As Byte : File = 0                              ' номер файла для записи или воспроизведения(*.bat) - прибить после доводки (используется для записи ик-команд)
-   Const File = 10                                          ' константа едиственного открытого файл-хэндла
+   Const File = 10                                          ' константа едиственного доступного файл-хэндла
    Dim Text_filename As String * 12                         ' имя нужного файла, см. процедуры для записи в файл+логгирования
    Dim Mult_filename As String * 12                         ' имя нужного мультимедиа файла
 #endif

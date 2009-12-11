@@ -12,7 +12,7 @@ Declare Function Getnexttokenlong(byval Plmin As Long , Byval Plmax As Long ) As
 
 ' вывод на дисплей, в лог/батник, уарт, динамик (перед использованием инициализировать файл на карточке)
 Declare Sub Print_to_display(s As String)                   ' прямая печать на дисплей в консольном режиме
-Declare Sub Print_ew(s As String)                           ' print_everywhere вывод строки всюду
+Declare Sub Print_ew(s As String , Byval Direct As Byte)    ' print_everywhere вывод строки всюду
 Declare Sub Print_error(byval Number As Byte)               ' вывод ошибки всюду
 
 ' работа с карточкой и мультимедиа (именя файлов соответственно text_filename и mult_filename)
@@ -89,15 +89,21 @@ Sub Print_to_text_file(s As String)
 #endif
 End Sub
 
-Sub Print_ew(s As String)
+Sub Print_ew(s As String, byval direct as byte)
 ' печатает на дисплей, в уарт и в лог/батник
 ' делает ощутимую задержку на прорисовку дисплея,
 ' чтобы дождаться опустошения буфера
-   Reset Ucsrb.rxen
-      Print S
+   If Direct = P_u Or Direct = P_d_u Or Direct = P_u_l Or Direct = P_d_u_l Then
+      Reset Ucsrb.rxen
+         Print S
+      Set Ucsrb.rxen
+   End If
+   If Direct = P_d Or Direct = P_d_u Or Direct = P_d_l Or Direct = P_d_u_l Then
       Call Print_to_display(s)
+   End If
+   If Direct = P_l Or Direct = P_d_l Or Direct = P_u_l Or Direct = P_d_u_l Then
       Call Print_to_text_file(s)
-   Set Ucsrb.rxen
+   End If
 End Sub
 
 Sub Print_error(byval Number As Byte)

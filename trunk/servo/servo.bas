@@ -11,7 +11,7 @@ $baud = 9600
 Config Serialin = Buffered , Size = 20
 
 Config Servos = 1 , Servo1 = Portc.0 , Reload = 20
-Config Portc.0 = Output
+Config Pinc.0 = Output
 
 'делаю супермегабиг+ стек
 $hwstack = 64
