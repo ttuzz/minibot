@@ -1,6 +1,6 @@
 Report       : main
-Date         : 11-29-2009
-Time         : 00:04:40
+Date         : 12-10-2009
+Time         : 22:34:52
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M32
@@ -8,9 +8,9 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : 202C hex  -> Will fit into ROM
-ROMIMAGE     :  8236 dec
-FLASH USED   :  25  %
+ROMIMAGE     : 2152 hex  -> Will fit into ROM
+ROMIMAGE     :  8530 dec
+FLASH USED   :  26  %
 BAUD         : 115200 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
@@ -98,7 +98,8 @@ GBDIRBUFFER                      Byte (512)        00D1          209
 ABFILEHANDLES                    Byte (538)        02D1          721 
 LASTDOSMEM                       Byte              04EB          1259 
 GSTOKEN                          String            04EC          1260 
-GSPCINPUT                        String            04F9          1273 
+GSINPUT_EX                       String            04F9          1273 
+GSINPUT                          String            04FB          1275 
 GBPOSSTRPARTS                    Byte (6)          050E          1294 
 GBLENSTRPARTS                    Byte (6)          0514          1300 
 GBCNTTOKEN                       Byte              051A          1306 
@@ -611,6 +612,13 @@ CTOKEN_LEN                       12
 NOW_LOGGING                      0                                                                                                                                                                                                                                                               
 NOW_RECORDING                    1                                                                                                                                                                                                                                                               
 NOW_PLAYING                      2                                                                                                                                                                                                                                                               
+P_D                              1                                                                                                                                                                                                                                                               
+P_U                              2                                                                                                                                                                                                                                                               
+P_L                              3                                                                                                                                                                                                                                                               
+P_D_U                            4                                                                                                                                                                                                                                                               
+P_D_L                            5                                                                                                                                                                                                                                                               
+P_U_L                            6                                                                                                                                                                                                                                                               
+P_D_U_L                          7                                                                                                                                                                                                                                                               
 FILE                             10                                                                                                                                                                                                                                                              
 CPPARAMETERCOUNT                 101                                                                                                                                                                                                                                                             
 CPPARAMETER                      102                                                                                                                                                                                                                                                             
@@ -678,6 +686,7 @@ GLDRIVESECTORS                   not used
 GSDIR0TEMPFILENAME               not used
 GLDIR0SECTORNUMBER               not used
 LASTDOSMEM                       not used
+GSINPUT_EX                       not used
 GBPCINPUTERROR                   not used
 STRFILE                          not used
 STRF1                            not used

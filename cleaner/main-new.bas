@@ -94,7 +94,7 @@ Do
          состояние_робота = управление_пультом
          Enable Int1
          Print "in_parking_mode"
-         Do      'Idle
+         Do                                                 'Idle
          Loop
    End Select
 Loop

@@ -1,6 +1,6 @@
 Report       : m32
-Date         : 12-07-2009
-Time         : 21:12:59
+Date         : 12-10-2009
+Time         : 00:21:01
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M32
@@ -8,9 +8,9 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : 2BA hex  -> Will fit into ROM
-ROMIMAGE     :  698 dec
-FLASH USED   :  2  %
+ROMIMAGE     : 554 hex  -> Will fit into ROM
+ROMIMAGE     :  1364 dec
+FLASH USED   :  4  %
 BAUD         : 9600 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
@@ -21,7 +21,7 @@ S-Stacksize  : 40 hex
 S-Stackstart : 820 hex
 Framesize    : 40 hex
 Framestart   : 7DF hex
-Space left   :  1834  dec
+Space left   :  1829  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -67,6 +67,9 @@ COMPARE1B                        Word              0048          72
 PWM0                             Byte              005C          92 
 ERR                              Bit               0006          6 
 S                                String            0060          96 
+C                                String            0075          117 
+COUNT                            Byte              0077          119 
+W                                Word              0078          120 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -434,7 +437,7 @@ _SWSTACK_LOW                      2016
 _FRAME_HIGH                       2016                                                                                                                                                                                                                                                           
 TIMERLOAD_AFTER_START            144                                                                                                                                                                                                                                                             
 TIMERLOAD_AFTER_BIT              83                                                                                                                                                                                                                                                              
-BYTES_AMOUNT                     4                                                                                                                                                                                                                                                               
+BYTES_AMOUNT                     3                                                                                                                                                                                                                                                               
 
 
 --------------------------------------------------------------------------------

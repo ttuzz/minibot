@@ -33,10 +33,10 @@ Declare Sub Docommand()
    ' здесь нужна функция для смены текущего состояния в логгирование
    Text_filename = Logging_sd_filename
 #endif
-
+                                       
 '** Запуск **
 Mult_filename = "welc.mbi" : Call Print_picture_to_display
-Gspcinput = "Start Minibot" : Call Print_ew(gspcinput)
+Gsinput = "Start Minibot" : Call Print_ew(Gsinput , P_d_u_l)
 Mult_filename = "welc.wav" : Call Print_to_speaker
 Wait 1
 
@@ -48,7 +48,7 @@ Enable Interrupts
 
 
 'запуск основного цикла шлюза
-Gspcinput = "Ready for commands" : Call Print_ew(gspcinput)
+Gsinput = "Ready for commands" : Call Print_ew(gsinput , P_d_u_l)
 
 Loop_start:
 Do
@@ -62,11 +62,11 @@ Do
    Waitms 6
    Clear Serialin
 
-   Input Gspcinput Noecho
+   Input Gsinput Noecho
    Print Chr(10) ; Chr(13) ;
 
    Docommand
-   Gspcinput = ""
+   Gsinput = ""
 Loop
 
 Sub Docommand

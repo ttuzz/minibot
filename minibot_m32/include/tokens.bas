@@ -19,8 +19,8 @@ Lenstrparts : размер в байтах(символах) каждого токена
    Next
 
    Gbcnttoken = 0
-   Gspcinput = Trim(gspcinput)
-   Lstrlen = Len(gspcinput)                                 'получение длины строки
+   Gsinput = Trim(gsinput)
+   Lstrlen = Len(gsinput)                                   'получение длины строки
    If Lstrlen = 0 Then                                      'если строка пуста
       Gbtoken_actual = 0                                    'устанавливаем номер актуального токена
       Exit Sub
@@ -30,9 +30,9 @@ Lenstrparts : размер в байтах(символах) каждого токена
    For Gbcnttoken = 1 To Cptoken_max
       Incr Lpos1
       If Gbcnttoken = 1 Then
-         Lpos2 = Instr(lpos1 , Gspcinput , " ")             'поиск следующего разделителя (пробел)
+         Lpos2 = Instr(lpos1 , Gsinput , " ")               'поиск следующего разделителя (пробел)
       Else
-         Lpos2 = Instr(lpos1 , Gspcinput , Cpstrsep)        'поиск следующего разделителя (запятая)
+         Lpos2 = Instr(lpos1 , Gsinput , Cpstrsep)          'поиск следующего разделителя (запятая)
       End If
       If Lpos2 = 0 Then                                     'если больше ничего не найдено
          Lpos2 = Lstrlen : Incr Lpos2 : Lparseend = 1
@@ -60,7 +60,7 @@ Function Getnexttokenstr(byval Pblen_max As Byte ) As String
    Lbpos = Gbposstrparts(gbtoken_actual)                    'получает позицию начала токена
    Lblen = Gblenstrparts(gbtoken_actual)                    'и его размер
    If Lblen > Pblen_max Then Lblen = Pblen_max              'слишком большой?
-   Getnexttokenstr = Mid(gspcinput , Lbpos , Lblen)         'возвращает строку
+   Getnexttokenstr = Mid(Gsinput , Lbpos , Lblen)         'возвращает строку
 End Function
 
 
@@ -78,7 +78,7 @@ Plmax : граница -максимум
    Lbpos = Gbposstrparts(gbtoken_actual)                    'получает позицию начала токена
    Lblen = Gblenstrparts(gbtoken_actual)                    'и его размер
    If Lblen > 12 Then Lblen = 12                            'слишком большой?
-   Lstoken = Mid(gspcinput , Lbpos , Lblen)
+   Lstoken = Mid(Gsinput , Lbpos , Lblen)
    Lstoken = Ltrim(lstoken)
    If Mid(lstoken , 1 , 1) = "$" Then                       'HEX число?
       Mid(lstoken , 1 , 1) = " "
