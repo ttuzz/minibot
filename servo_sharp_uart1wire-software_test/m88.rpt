@@ -1,6 +1,6 @@
 Report       : m88
-Date         : 12-10-2009
-Time         : 00:21:18
+Date         : 12-13-2009
+Time         : 23:33:25
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M88
@@ -8,8 +8,8 @@ SRAM         : 400 hex
 EEPROM       : 200 hex
 ROMSIZE      : 2000 hex
 
-ROMIMAGE     : 708 hex  -> Will fit into ROM
-ROMIMAGE     :  1800 dec
+ROMIMAGE     : 6F8 hex  -> Will fit into ROM
+ROMIMAGE     :  1784 dec
 FLASH USED   :  21  %
 BAUD         : 9600 Baud
 XTAL         : 7372800 Hz
@@ -21,7 +21,7 @@ S-Stacksize  : A hex
 S-Stackstart : 4E0 hex
 Framesize    : 28 hex
 Framestart   : 4B7 hex
-Space left   :  912  dec
+Space left   :  915  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -70,8 +70,6 @@ ERR                              Bit               0006          6
 SERVO                            Byte (1)          0102          258 
 S                                String            0103          259 
 C                                String            0118          280 
-COUNT                            Byte              011A          282 
-W                                Word              011B          283 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -595,5 +593,4 @@ PWM0A                            not used
 PWM0B                            not used
 PWM2A                            not used
 PWM2B                            not used
-W                                not used
 

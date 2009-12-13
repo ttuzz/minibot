@@ -10,8 +10,8 @@ Const Exist_servos = 1                                      ' нужно выставлять к
 Const Exist_distance_sensor = 1                             ' есть или нет
 
 #if Exist_servos <> 0
-   Config Servos = 1 , Servo1 = Portb.0 , Reload = 10
-      Config Pinb.0 = Output
+   Config Servos = 1 , Servo1 = Portb.2 , Reload = 10
+      Config Pinb.2 = Output
 #endif
 
 #if Exist_distance_sensor <> 0
@@ -33,20 +33,14 @@ Declare Sub Print_m32(byref S As String)
 
 ' управление серво
 Declare Sub Set_servo(byref S As String)
-' управление далбномером
+' управление дальномером
 Declare Sub Get_distance(byref S As String)
 
 Dim S As String * 20
 Dim C As String * 1
 
-Dim Count As Byte : Count = 0
-
-Dim W As Word
-
 Enable Interrupts
-
 Do
-
    Call Input_m32(s)
    Print "m32_send: " ; S
    C = Mid(s , 1 , 1)
@@ -58,19 +52,13 @@ Do
    Case Else
       S = "nrc" : Call Print_m32(s)                         ' not recognition
    End Select
-'(
-   Start Adc
-      W = Getadc(1) : W = Getadc(1) : W = Getadc(1)
-   Stop Adc
-   Print W
-')
 Loop
 
 Sub Input_m32(byref S As String)
    Local Bit_count As Byte , Byte_count As Byte
    Local Buf As Byte
 
-   Config Pinc.0 = Output
+   'Config Pinc.0 = Output
    Config Pinc.4 = Input
 
    Config Timer2 = Timer , Prescale = 8
@@ -85,17 +73,17 @@ Sub Input_m32(byref S As String)
          While Timer2 < Timerload_after_start
          Wend
       Timer0 = 0
-      Portc.0 = 1
-      Portc.0 = 0
+      'Portc.0 = 1
+      'Portc.0 = 0
       Bit_count = 0
       Buf = 0
       While Bit_count < 8
-         Portc.0 = 1
+         'Portc.0 = 1
          Buf = Buf + Pinc.4
          Rotate Buf , Right , 1
          Incr Bit_count
          Timer2 = 0
-         Portc.0 = 0
+         'Portc.0 = 0
             While Timer2 < Timerload_after_bit
             Wend
       Wend
@@ -151,7 +139,6 @@ Sub Get_distance(byref S As String)
          Mid(s , 3 , 1) = "k"
       End If
    End If
-
    Call Print_m32(s)
 #endif
 End Sub
