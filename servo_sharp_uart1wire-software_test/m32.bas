@@ -58,7 +58,7 @@ Do
          End Select
          Print "::" ; W
    End If
-   Waitms 500
+   Waitms 10
 Loop
 
 
@@ -105,7 +105,7 @@ Sub Print_m88(byref S As String)
    Close #10
 End Sub
 
-      '(
+'(
       S = "a" + Chr(count) + "k" : Call Print_m88(s)
       Call Input_m88(s)
          C = Mid(s , 2 , 1)

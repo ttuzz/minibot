@@ -1,0 +1,170 @@
+object frmMain: TfrmMain
+  Left = 1019
+  Top = 610
+  BorderStyle = bsSingle
+  Caption = 'MB_servo_distance'
+  ClientHeight = 213
+  ClientWidth = 343
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 8
+    Top = 8
+    Width = 92
+    Height = 13
+    Caption = #1057#1077#1088#1074#1086#1076#1074#1080#1075#1072#1090#1077#1083#1100' 1'
+  end
+  object Label2: TLabel
+    Left = 128
+    Top = 104
+    Width = 32
+    Height = 13
+    Caption = 'Label2'
+    Visible = False
+  end
+  object lbl_servo: TLabel
+    Left = 304
+    Top = 8
+    Width = 25
+    Height = 13
+    Alignment = taRightJustify
+    AutoSize = False
+    Caption = '83'
+  end
+  object Label3: TLabel
+    Left = 8
+    Top = 56
+    Width = 68
+    Height = 13
+    Caption = #1044#1072#1083#1100#1085#1086#1084#1077#1088' 1'
+    Enabled = False
+  end
+  object lbl_distance: TLabel
+    Left = 302
+    Top = 56
+    Width = 25
+    Height = 13
+    Alignment = taRightJustify
+    AutoSize = False
+    Caption = '0'
+    Enabled = False
+  end
+  object gb_ComSettings: TGroupBox
+    Left = 184
+    Top = 96
+    Width = 153
+    Height = 105
+    Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080' '#1087#1086#1088#1090#1072
+    TabOrder = 0
+    object cb_com_port: TComboBox
+      Left = 8
+      Top = 24
+      Width = 73
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 0
+      OnChange = cb_com_portChange
+    end
+    object cb_com_baudrate: TComboBox
+      Left = 8
+      Top = 52
+      Width = 73
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      ItemIndex = 1
+      TabOrder = 1
+      Text = '115200'
+      OnChange = cb_com_baudrateChange
+      Items.Strings = (
+        '9600'
+        '115200')
+    end
+    object btn_com_refresh: TButton
+      Left = 87
+      Top = 25
+      Width = 58
+      Height = 19
+      Caption = #1054#1073#1085#1086#1074#1080#1090#1100
+      TabOrder = 2
+      OnClick = btn_com_refreshClick
+    end
+    object btn_Author: TButton
+      Left = 87
+      Top = 53
+      Width = 58
+      Height = 19
+      Caption = #1040#1074#1090#1086#1088
+      TabOrder = 3
+      OnClick = btn_AuthorClick
+    end
+    object btn_enable_control: TButton
+      Left = 8
+      Top = 76
+      Width = 137
+      Height = 25
+      Caption = #1055#1086#1076#1082#1083#1102#1095#1080#1090#1100#1089#1103
+      TabOrder = 4
+      OnClick = btn_enable_controlClick
+    end
+  end
+  object tb_servo: TTrackBar
+    Left = 8
+    Top = 24
+    Width = 329
+    Height = 33
+    Max = 130
+    Min = 35
+    Position = 83
+    TabOrder = 1
+    OnChange = tb_servoChange
+  end
+  object ProgressBar1: TProgressBar
+    Left = 16
+    Top = 72
+    Width = 313
+    Height = 16
+    Enabled = False
+    Position = 50
+    TabOrder = 2
+  end
+  object XPManifest: TXPManifest
+    Left = 8
+    Top = 104
+  end
+  object com: TBComPort
+    BaudRate = br115200
+    ByteSize = bs8
+    InBufSize = 2048
+    OutBufSize = 2048
+    Parity = paNone
+    Port = 'COM4'
+    SyncMethod = smThreadSync
+    StopBits = sb1
+    Timeouts.ReadInterval = -1
+    Timeouts.ReadTotalMultiplier = 0
+    Timeouts.ReadTotalConstant = 0
+    Timeouts.WriteTotalMultiplier = 100
+    Timeouts.WriteTotalConstant = 1000
+    OnRxChar = comRxChar
+    Left = 40
+    Top = 104
+  end
+  object tmr: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = tmrTimer
+    Left = 72
+    Top = 104
+  end
+end

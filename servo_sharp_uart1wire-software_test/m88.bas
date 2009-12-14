@@ -39,7 +39,7 @@ Dim W As Word
 Enable Interrupts
 
 Do
-   '(
+'(
    If Mid(s , 1 , 1) = "a" And Mid(s , 3 , 1) = "k" Then
       C = Mid(s , 2 , 1)
       Count = Asc(c)
@@ -60,7 +60,7 @@ Do
          'S = "dsa" : Call Print_m32(s)
          Call Get_distance(s)
       Else
-         S = "nrc" : Call Print_m32(s) ' not recognition
+         S = "nrc" : Call Print_m32(s)                      ' not recognition
       End If
    End If
 Loop
