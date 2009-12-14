@@ -1,6 +1,6 @@
 $regfile = "m32DEF.dat"
 $crystal = 7372800
-$baud = 9600
+$baud = 115200
 
 $hwstack = 64
 $swstack = 64
@@ -17,28 +17,31 @@ Dim S As String * 20
    Dim Arr(10) As Byte At S Overlay
    Dim Substr As String * 15 At Arr(3) Overlay
 Dim C As String * 1
-
-Dim Transmit As String * 20
-
-Dim W As Word
-Waitms 70
-
 Enable Interrupts
+Dim Count As Byte : Count = 1
+Dim W As Word
+Dim Transmit As String * 6
 
-Start1:
+Waitms 70
 Do
    Waitms 10
+   Reset Ucsrb.rxen
+      Print ":>" ;                                          'Lcdat 1 , 1 , S , Black , White
+      Waitms 6
+   Set Ucsrb.rxen
 
-   Input ">" , S
-   C = Mid(s , 1 , 1)
-   Select Case C
-   Case "s":
+   Input S Noecho
+   Reset Ucsrb.rxen
+      Print "--you entered: '" ; S ; "'"
+   Set Ucsrb.rxen
+   If Mid(s , 1 , 1) = "s" Then
       Transmit = Mid(s , 1 , 2)
       W = Val(substr)
       Transmit = Transmit + Chr(w) : Call Print_m88(transmit)
       Call Input_m88(s)
       Print "::" ; S
-   Case "d":
+   End If
+   If Mid(s , 1 , 1) = "d" Then
       Transmit = Mid(s , 1 , 2) + "k" : Call Print_m88(transmit)
       Call Input_m88(s)
          C = Mid(s , 2 , 1) : W = Asc(c) : Shift W , Left , 8
@@ -54,42 +57,15 @@ Do
             W = 0
          End Select
          Print "::" ; W
-   Case Else
-      Print "wrong"
-      goto start1
-   End Select
-
-'(
-   input s
-   call print_m88(s)
-   call input_m88(s)
-   print s
-')
-'(
-   Call Input_m88(s)
-      C = Mid(s , 2 , 1) : W = Asc(c) : Shift W , Left , 8
-      C = Mid(s , 3 , 1) : W = W + Asc(c)
-      C = Mid(s , 1 , 1)
-      Select Case C
-      Case "a":
-      Case "b":
-         W = W And &H00FF
-      Case "c":
-         W = W And &HFF00
-      Case "d":
-         W = 0
-      End Select
-      Print "m88_value: " ; W
-   'Print "m88_send: " ; S
-   'Waitms 1000
-')
+   End If
+   Waitms 500
 Loop
+
 
 Sub Input_m88(byref S As String)
    Local Bit_count As Byte , Byte_count As Byte
    Local Buf As Byte
 
-   'Config Pinc.0 = Output
    Config Pinc.1 = Input
 
    Config Timer0 = Timer , Prescale = 8
@@ -104,17 +80,13 @@ Sub Input_m88(byref S As String)
          While Timer0 < Timerload_after_start
          Wend
       Timer0 = 0
-      'Portc.0 = 1
-      'Portc.0 = 0
       Bit_count = 0
       Buf = 0
       While Bit_count < 8
-         'Portc.0 = 1
          Buf = Buf + Pinc.1
          Rotate Buf , Right , 1
          Incr Bit_count
          Timer0 = 0
-         'Portc.0 = 0
             While Timer0 < Timerload_after_bit
             Wend
       Wend
@@ -132,3 +104,14 @@ Sub Print_m88(byref S As String)
       Enable Timer0
    Close #10
 End Sub
+
+'(
+      S = "a" + Chr(count) + "k" : Call Print_m88(s)
+      Call Input_m88(s)
+         C = Mid(s , 2 , 1)
+         Count = Asc(c)
+      S = "> " + Str(count)
+   'Reset Ucsrb.rxen
+      Print S
+   'Set Ucsrb.rxen
+')

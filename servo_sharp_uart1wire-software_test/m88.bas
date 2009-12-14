@@ -1,10 +1,10 @@
 $regfile = "m88DEF.dat"
-$baud = 9600
+$baud = 115200
 $crystal = 7372800
 
-$hwstack = 32
-$swstack = 10
-$framesize = 40
+$hwstack = 64
+$swstack = 64
+$framesize = 64
 
 Const Exist_servos = 1                                      ' нужно выставлять количество
 Const Exist_distance_sensor = 1                             ' есть или нет
@@ -12,11 +12,6 @@ Const Exist_distance_sensor = 1                             ' есть или нет
 #if Exist_servos <> 0
    Config Servos = 1 , Servo1 = Portb.2 , Reload = 10
       Config Pinb.2 = Output
-#endif
-
-#if Exist_distance_sensor <> 0
-   'Config Adc = Single , Prescaler = Auto , Reference = Internal       '!!!!_1.1V в МЕГЕ88!!!!!
-   Config Adc = Single , Prescaler = Auto , Reference = Avcc       '!!!!_1.1V в МЕГЕ88!!!!!
 #endif
 
 Declare Sub Input_m32(byref S As String)
@@ -29,70 +24,46 @@ Declare Sub Input_m32(byref S As String)
    #endif
    Const Bytes_amount = 3                                   ' количество байт для приема
 Declare Sub Print_m32(byref S As String)
-
-
 ' управление серво
 Declare Sub Set_servo(byref S As String)
-' управление дальномером
 Declare Sub Get_distance(byref S As String)
 
+
 Dim S As String * 20
-Dim C As String * 1
+Dim Transmit As String * 20
+
+
+Dim Count As Byte : Count = 0
+Dim W As Word
 
 Enable Interrupts
+
 Do
+'(
+   If Mid(s , 1 , 1) = "a" And Mid(s , 3 , 1) = "k" Then
+      C = Mid(s , 2 , 1)
+      Count = Asc(c)
+      Incr Count
+      If Count = 0 Then
+         Count = 1
+      End If
+      Mid(s , 2 , 1) = Chr(count) : Call Print_m32(s)
+   Else
+      S = "nrc" : Call Print_m32(s)
+   End If
+')
    Call Input_m32(s)
-   Print "m32_send: " ; S
-   C = Mid(s , 1 , 1)
-   Select Case C
-   Case "s":
+   If Mid(s , 1 , 1) = "s" Then
       Call Set_servo(s)
-   Case "d":
-      Call Get_distance(s)
-   Case Else
-      S = "nrc" : Call Print_m32(s)                         ' not recognition
-   End Select
+   Else
+      If Mid(s , 1 , 1) = "d" Then
+         'S = "dsa" : Call Print_m32(s)
+         Call Get_distance(s)
+      Else
+         S = "nrc" : Call Print_m32(s)                      ' not recognition
+      End If
+   End If
 Loop
-
-Sub Input_m32(byref S As String)
-   Local Bit_count As Byte , Byte_count As Byte
-   Local Buf As Byte
-
-   'Config Pinc.0 = Output
-   Config Pinc.4 = Input
-
-   Config Timer2 = Timer , Prescale = 8
-   Stop Timer2
-
-   Byte_count = 0
-   While Byte_count < Bytes_amount
-      Incr Byte_count
-      Bitwait Pinc.4 , Reset
-      Start Timer2
-      Timer2 = 0
-         While Timer2 < Timerload_after_start
-         Wend
-      Timer0 = 0
-      'Portc.0 = 1
-      'Portc.0 = 0
-      Bit_count = 0
-      Buf = 0
-      While Bit_count < 8
-         'Portc.0 = 1
-         Buf = Buf + Pinc.4
-         Rotate Buf , Right , 1
-         Incr Bit_count
-         Timer2 = 0
-         'Portc.0 = 0
-            While Timer2 < Timerload_after_bit
-            Wend
-      Wend
-      Mid(s , Byte_count , 1) = Buf
-      Stop Timer2
-   Wend
-   Incr Byte_count
-   Mid(s , Byte_count , 1) = Chr(0)
-End Sub
 
 Sub Set_servo(byref S As String)
 #if Exist_servos <> 0
@@ -114,6 +85,8 @@ Sub Get_distance(byref S As String)
    Local Value As Word , Symb As String * 1 , Number As Byte
    Local B1 As Byte , B2 As Byte
    Symb = Mid(s , 2 , 1) : Number = Val(symb)
+   'Config Adc = Single , Prescaler = Auto , Reference = Avcc
+   'Config Adc = Single , Prescaler = Auto , Reference = Internal       '!!!!_1.1V в МЕГЕ88!!!!!
    Start Adc
       Select Case Number
       Case 1:
@@ -122,9 +95,12 @@ Sub Get_distance(byref S As String)
          Value = Getadc(number)
       Case Else:
          S = "nck" : Call Print_m32(s)
+         Stop Adc
          Exit Sub
       End Select
    Stop Adc
+   Reset Adcsr.aden
+   Didr0 = 0                                                ' включаем цифровые буферы
    S = "ack"
    B1 = High(value) : Mid(s , 2 , 1) = Chr(b1)
    B2 = Low(value) : Mid(s , 3 , 1) = Chr(b2)
@@ -141,6 +117,41 @@ Sub Get_distance(byref S As String)
    End If
    Call Print_m32(s)
 #endif
+End Sub
+
+Sub Input_m32(byref S As String)
+   Local Bit_count As Byte , Byte_count As Byte
+   Local Buf As Byte
+
+   Config Pinc.4 = Input
+
+   Config Timer2 = Timer , Prescale = 8
+   Stop Timer2
+
+   Byte_count = 0
+   While Byte_count < Bytes_amount
+      Incr Byte_count
+      Bitwait Pinc.4 , Reset
+      Start Timer2
+      Timer2 = 0
+         While Timer2 < Timerload_after_start
+         Wend
+      Timer2 = 0
+      Bit_count = 0
+      Buf = 0
+      While Bit_count < 8
+         Buf = Buf + Pinc.4
+         Rotate Buf , Right , 1
+         Incr Bit_count
+         Timer2 = 0
+            While Timer2 < Timerload_after_bit
+            Wend
+      Wend
+      Mid(s , Byte_count , 1) = Buf
+      Stop Timer2
+   Wend
+   Incr Byte_count
+   Mid(s , Byte_count , 1) = Chr(0)
 End Sub
 
 Sub Print_m32(byref S As String)
