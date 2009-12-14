@@ -6,8 +6,13 @@ $hwstack = 64
 $swstack = 64
 $framesize = 64
 
-Const Exist_servos = 0                                      ' нужно выставлять количество
+Const Exist_servos = 1                                      ' нужно выставлять количество
 Const Exist_distance_sensor = 1                             ' есть или нет
+
+#if Exist_servos <> 0
+   Config Servos = 1 , Servo1 = Portb.2 , Reload = 10
+      Config Pinb.2 = Output
+#endif
 
 
 Declare Sub Input_m32(byref S As String)
@@ -64,7 +69,7 @@ Sub Input_m32(byref S As String)
       Timer2 = 0
          While Timer2 < Timerload_after_start
          Wend
-      Timer0 = 0
+      Timer2 = 0
       Bit_count = 0
       Buf = 0
       While Bit_count < 8
