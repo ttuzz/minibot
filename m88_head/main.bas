@@ -25,13 +25,15 @@ Dim Text As String * 15                                     'строка для отправки
 Dim Text_tmp As String * 15
 Dim Txt_ As Byte
 
-'Enable Urxc
+Enable Urxc
 On Urxc Getchar                                             'переопределяем прерывание приема usart
 
 
 Waitms 1000
-Print
-Print "Start Mega88 MiniBot 2.1"
+   Reset Ucsr0b.rxen0
+      Print
+      Print "Start Mega88 MiniBot 2.1"
+   Set Ucsr0b.rxen0
 Enable Interrupts                                           'разрешаем прерывания
 
 
@@ -86,8 +88,10 @@ Sharp:
    дифф = Abs(дифф)
    расстояния(буфер) = дистанция
    If дифф > порог_срабатывания Then
-      Print Chr(13);
       дистанция = дистанция / 10
-      Print пеленг ; "-" ; дистанция ;
+      Reset Ucsr0b.rxen0
+         Print Chr(13);
+         Print пеленг ; "-" ; дистанция ;
+      Set Ucsr0b.rxen0
    End If
 Return
