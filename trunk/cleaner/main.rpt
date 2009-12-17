@@ -1,6 +1,6 @@
 Report       : main
-Date         : 12-13-2009
-Time         : 20:37:54
+Date         : 12-17-2009
+Time         : 21:36:24
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M32
@@ -8,9 +8,9 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : B1A hex  -> Will fit into ROM
-ROMIMAGE     :  2842 dec
-FLASH USED   :  8  %
+ROMIMAGE     : BEC hex  -> Will fit into ROM
+ROMIMAGE     :  3052 dec
+FLASH USED   :  9  %
 BAUD         : 115200 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
@@ -488,6 +488,8 @@ BTN_NORMAL                       60
 точка_останова                   50                                                                                                                                                                                                                                                              
 зажечь                           1                                                                                                                                                                                                                                                               
 потушить                         0                                                                                                                                                                                                                                                               
+нажат                            0                                                                                                                                                                                                                                                               
+отжат                            1                                                                                                                                                                                                                                                               
 управление_пультом               1                                                                                                                                                                                                                                                               
 движение_улиткой                 2                                                                                                                                                                                                                                                               
 поиск_станции                    3                                                                                                                                                                                                                                                               
@@ -497,8 +499,6 @@ BTN_NORMAL                       60
 улитка_прибавка_скорости         10                                                                                                                                                                                                                                                              
 улитка_разбалансировка           10                                                                                                                                                                                                                                                              
 улитка_время_движения            50                                                                                                                                                                                                                                                              
-нажат                            0                                                                                                                                                                                                                                                               
-отжат                            1                                                                                                                                                                                                                                                               
 
 
 --------------------------------------------------------------------------------

@@ -1,0 +1,6 @@
+Config Pina.1 = Output                                      ' управление пылесосом
+Config Pina.2 = Input : Бампер_левый Alias Pina.2           ' правый бампер
+Config Pina.6 = Input : Бампер_правый Alias Pina.6          ' левый бампер
+
+
+базовый код:
