@@ -5,13 +5,16 @@
 
 '**********MINIBOT CONFIGS**********
 'камень
-$regfile = "m8DEF.dat"
+$regfile = "m88DEF.dat"
 $crystal = 7372800
 $baud = 9600
 Config Serialin = Buffered , Size = 20
 
-Config Servos = 1 , Servo1 = Portc.0 , Reload = 20
+Config Servos = 1 , Servo1 = Portc.0 , Reload = 10
 Config Pinc.0 = Output
+
+Config Timer1 = Pwm , Pwm = 10 , Prescale = 64 , Compare A Pwm = Clear Down , Compare B Pwm = Clear Down
+   Servo1 Alias Pwm1b
 
 'делаю супермегабиг+ стек
 $hwstack = 64
@@ -34,6 +37,7 @@ Do
    Dim I As Byte
    For I = 40 To 79
       Servo(1) = I
+      Servo1 = I
       Waitms 250
    Next
    Wait 1
