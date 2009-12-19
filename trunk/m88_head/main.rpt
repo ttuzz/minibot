@@ -1,6 +1,6 @@
 Report       : main
-Date         : 12-17-2009
-Time         : 23:31:41
+Date         : 12-20-2009
+Time         : 01:00:32
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M88
@@ -8,9 +8,9 @@ SRAM         : 400 hex
 EEPROM       : 200 hex
 ROMSIZE      : 2000 hex
 
-ROMIMAGE     : 638 hex  -> Will fit into ROM
-ROMIMAGE     :  1592 dec
-FLASH USED   :  19  %
+ROMIMAGE     : 75A hex  -> Will fit into ROM
+ROMIMAGE     :  1882 dec
+FLASH USED   :  22  %
 BAUD         : 115200 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
@@ -21,7 +21,7 @@ S-Stacksize  : 40 hex
 S-Stackstart : 4C0 hex
 Framesize    : 40 hex
 Framestart   : 47F hex
-Space left   :  775  dec
+Space left   :  708  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -69,13 +69,12 @@ PWM2B                            Byte              00B4          180
 ERR                              Bit               0006          6 
 дистанция                        Word              0100          256 
 дифф                             Integer           0102          258 
-SERVO                            Byte (1)          0106          262 
-пеленг                           Byte              0107          263 
-расстояния                       Word (7)          0108          264 
-буфер                            Byte              0116          278 
-TEXT                             String            0117          279 
-TEXT_TMP                         String            0127          295 
-TXT_                             Byte              0137          311 
+пеленг                           Byte              0104          260 
+расстояния                       Word (7)          0105          261 
+буфер                            Byte              0113          275 
+TEXT                             String            0114          276 
+TEXT_TMP                         String            0147          327 
+TXT_                             Byte              017A          378 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -574,7 +573,7 @@ _UARTS                           1
 _HWSTACK_LOW                      1215                                                                                                                                                                                                                                                           
 _SWSTACK_LOW                      1152                                                                                                                                                                                                                                                           
 _FRAME_HIGH                       1152                                                                                                                                                                                                                                                           
-порог_срабатывания               70                                                                                                                                                                                                                                                              
+порог_срабатывания               100                                                                                                                                                                                                                                                             
 
 
 --------------------------------------------------------------------------------
@@ -596,3 +595,5 @@ PWM0B                            not used
 PWM2A                            not used
 PWM2B                            not used
 
+Source string could be too big to fit into target string  in line  72 
+Source string could be too big to fit into target string  in line  105 
