@@ -26,7 +26,7 @@ Config Timer1 = Pwm , Pwm = 10 , Prescale = 64 , Compare A Pwm = Clear Down , Co
 
 ' Функции и процедуры
 Declare Sub Printf(byval S As String)
-   Dim Text As String * 50                                  ' буффер строка для отправки (нужна из-за недопустимости вложенных функция)
+   Dim Text As String * 50                                  ' буфер-строка для отправки (нужна из-за недопустимости вложенных функция)
 
 ' Связь
 Enable Urxc
@@ -49,9 +49,7 @@ Loop
 Getchar:
    In_key = Inkey()
    If In_key <> 13 And In_key <> 10 Then                    ' принимаем пока не встретим конец строки
-      If In_key <> 248 And In_key <> 161 Then
          In_string = In_string + Chr(in_key)
-      End If
    Else                                                     'text_tmp содержит принятую строку
       If In_string = "on" Then сканировать = да
       If In_string = "off" Then сканировать = нет
@@ -76,12 +74,8 @@ Do
      Gosub Sharp
    Next
 Loop Until сканировать = нет
-Return
-
-сканирование_стоп:
-   'Servo(1) = 50
-   Servo1 = пеленг
-   Goto основной_цикл
+'Servo(1) = 50
+Servo1 = 50
 Return
 
 Sharp:
@@ -106,16 +100,19 @@ Sub Printf(byval S As String)
    Reset Ucsr0b.rxen0
    Len1 = Len(s)
    For I = 1 To Len1
-      While Ucsr0a.udre0 = 0
+      While Ucsr0a.udre0 = 0                                ' ожидаю момента, когда можно загрузить новые данные
       Wend
       Buf = Mid(s , I , 1)
       Udr0 = Asc(buf)
    Next
       While Ucsr0a.udre0 = 0
       Wend
-      Udr0 = 10
+      Udr0 = 13
       While Ucsr0a.udre0 = 0
       Wend
-      Udr0 = 13
+      Udr0 = 10
+      Set Ucsr0a.txc0                                       ' очищаю флаг прерывания
+      While Ucsr0a.txc0 = 0                                 ' жду пока передатчик не передаст весь пакет (из внутреннего буфера, не UDR)
+      Wend
    Set Ucsr0b.rxen0
 End Sub
