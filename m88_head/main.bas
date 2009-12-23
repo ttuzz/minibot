@@ -100,19 +100,19 @@ Sub Printf(byval S As String)
    Reset Ucsr0b.rxen0
    Len1 = Len(s)
    For I = 1 To Len1
-      While Ucsr0a.udre0 = 0                                ' ожидаю момента, когда можно загрузить новые данные
-      Wend
+      'While Ucsr0a.udre0 = 0
+      'Wend
+      Bitwait Ucsr0a.udre0 , Set                            ' ожидаю момента, когда можно загрузить новые данные
       Buf = Mid(s , I , 1)
       Udr0 = Asc(buf)
    Next
-      While Ucsr0a.udre0 = 0
-      Wend
+      Bitwait Ucsr0a.udre0 , Set
       Udr0 = 13
-      While Ucsr0a.udre0 = 0
-      Wend
+      Bitwait Ucsr0a.udre0 , Set
       Udr0 = 10
       Set Ucsr0a.txc0                                       ' очищаю флаг прерывания
-      While Ucsr0a.txc0 = 0                                 ' жду пока передатчик не передаст весь пакет (из внутреннего буфера, не UDR)
-      Wend
+      'While Ucsr0a.txc0 = 0
+      'Wend
+      Bitwait Ucsr0a.txc0 , Set                             ' жду пока передатчик не передаст весь пакет (из внутреннего буфера, не UDR)
    Set Ucsr0b.rxen0
 End Sub
