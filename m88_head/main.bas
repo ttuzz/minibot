@@ -50,7 +50,7 @@ Getchar:
    In_key = Inkey()
    If In_key <> 13 And In_key <> 10 Then                    ' принимаем пока не встретим конец строки
          In_string = In_string + Chr(in_key)
-   Else                                                     'text_tmp содержит принятую строку
+   Else                                                     'in_string содержит принятую строку
       If In_string = "on" Then сканировать = да
       If In_string = "off" Then сканировать = нет
       'Mid(in_string , 1 , 1) = "-" ' отладочный вывод
@@ -89,7 +89,8 @@ Sharp:
    расстояния(буфер) = дистанция
    If дифф > порог_срабатывания Then
       дистанция = дистанция / 10
-      Text = Str(пеленг) + "-" + Str(дистанция) : Call Printf(text)
+      'Text = Str(пеленг) + "-" + Str(дистанция) : Call Printf(text)
+      Text = Str(буфер) + "-" + Str(дистанция) : Call Printf(text)
    End If
 Return
 
