@@ -51,6 +51,7 @@ Enable Urxc
 On Urxc получить_символ                                     'переопределяем прерывание приема usart
    Dim In_string As String * 50                             'строка для приема
    Dim In_key As Byte                                       ' текущий принятый символ
+   Dim In_buf As String * 10                                ' буфер-строка для парсинга принятых символов
 
 
 ' Глобальные переменные
@@ -86,6 +87,8 @@ Declare Sub двигаться_улиткой()
 Declare Sub искать_станцию()
 Declare Sub улитка_ожидание(byval период As Word)
 Declare Sub обработка_бамперов()
+   Dim расстояния(7) As Word
+   Dim буфер As Byte
 
 
 ' Связь
@@ -169,11 +172,17 @@ Return
    In_key = Inkey()
    If In_key <> 13 And In_key <> 10 Then                    ' принимаем пока не встретим конец строки
          In_string = In_string + Chr(in_key)
-   Else                                                     'text_tmp содержит принятую строку
+   Else                                                     'in_string содержит принятую строку
       'if In_string = "on" Then сканировать = да
       'if In_string = "off" Then сканировать = нет
       'Mid(in_string , 1 , 1) = "-" ' отладочный вывод
-      'Call Printf(in_string)
+      If Mid(in_string , 2 , 1) = "-" Then                  ' приняли состояние серв
+         In_buf = Mid(in_string , 1 , 1) + Chr(0)
+         буфер = Val(in_buf)
+         In_key = Len(in_string) - 2
+         In_buf = Mid(in_string , 3 , In_key) + Chr(0)
+         расстояния(буфер) = Val(in_buf)
+      End If
       In_string = ""
    End If
 Return
@@ -329,6 +338,9 @@ Sub выполнить_команду()
       Case Btn_av:
          ' отправка сигнала меге88
          Text = "off" : Call Printf(text)
+      Case Btn_sleep:
+         ' ВНИМАНИЕ!! КНОПКА ДЛЯ ОТЛАДКИ И ТОЛЬКО
+         If расстояния(1) > 100 Then Toggle диод2_красный
       Case Else:
          ' ни одна из вышеперечисленных кнопок
    End Select
