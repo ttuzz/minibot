@@ -1,6 +1,6 @@
 Report       : main
-Date         : 12-17-2009
-Time         : 21:36:24
+Date         : 12-23-2009
+Time         : 23:48:05
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M32
@@ -8,9 +8,9 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : BEC hex  -> Will fit into ROM
-ROMIMAGE     :  3052 dec
-FLASH USED   :  9  %
+ROMIMAGE     : E3C hex  -> Will fit into ROM
+ROMIMAGE     :  3644 dec
+FLASH USED   :  11  %
 BAUD         : 115200 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
@@ -21,7 +21,7 @@ S-Stacksize  : 40 hex
 S-Stackstart : 820 hex
 Framesize    : 40 hex
 Framestart   : 7DF hex
-Space left   :  1839  dec
+Space left   :  1736  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -66,18 +66,21 @@ PWM1B                            Word              0048          72
 COMPARE1B                        Word              0048          72 
 PWM0                             Byte              005C          92 
 ERR                              Bit               0006          6 
-команда_пульта_адрес             Byte              0060          96 
-команда_пульта                   Byte              0061          97 
-ADC_TEMP                         Word              0062          98 
-AKB                              Single            0064          100 
-ERRBYTE                          Byte              0068          104 
-состояние_робота                 Byte              0069          105 
-тики_таймера                     Byte              006A          106 
-команда_предыдущая               Byte              006B          107 
-команда_количество               Byte              006C          108 
-направление_движения             Byte              006D          109 
-флаг                             Byte              006E          110 
-I                                Byte              006F          111 
+IN_STRING                        String            0060          96 
+IN_KEY                           Byte              0093          147 
+команда_пульта_адрес             Byte              0094          148 
+команда_пульта                   Byte              0095          149 
+ADC_TEMP                         Word              0096          150 
+AKB                              Single            0098          152 
+ERRBYTE                          Byte              009C          156 
+состояние_робота                 Byte              009D          157 
+тики_таймера                     Byte              009E          158 
+команда_предыдущая               Byte              009F          159 
+команда_количество               Byte              00A0          160 
+направление_движения             Byte              00A1          161 
+флаг                             Byte              00A2          162 
+TEXT                             String            00A3          163 
+I                                Byte              00D6          214 
 
 --------------------------------------------------------------------------------
 Constant                         Value

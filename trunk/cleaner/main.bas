@@ -15,8 +15,7 @@ Config Pind.5 = Output                                      'ногу ШИМа правого д
 Const вперед = 0
 Const назад = 1
 Const точка_останова = 50
-скорость_левый Alias Pwm1b
-скорость_правый Alias Pwm1a
+скорость_левый Alias Pwm1b : скорость_правый Alias Pwm1a
 
 Config Pinc.4 = Output : диод1_красный Alias Portc.4
 Config Pinc.5 = Output : диод1_зеленый Alias Portc.5
@@ -29,7 +28,7 @@ Config Pind.2 = Input : кнопка Alias Pind.2
 Config Pinb.2 = Input : питание Alias Pinb.2
 
 Config Pina.2 = Input : бампер_л Alias Pina.2               ' бампер левый
-Config Pina.6 = Input : бампер_п Alias PinA.6               ' бампер правый
+Config Pina.6 = Input : бампер_п Alias Pina.6               ' бампер правый
    Const нажат = 0
    Const отжат = 1
 
@@ -46,6 +45,13 @@ Config Rc5 = Pind.3
 Config Timer2 = Timer , Prescale = 64
 On Ovf2 таймер2
 Enable Timer2
+
+' Прерывание по приходу символа по уарту
+Enable Urxc
+On Urxc получить_символ                                     'переопределяем прерывание приема usart
+   Dim In_string As String * 50                             'строка для приема
+   Dim In_key As Byte                                       ' текущий принятый символ
+
 
 ' Глобальные переменные
 Dim команда_пульта_адрес As Byte , команда_пульта As Byte
@@ -81,16 +87,22 @@ Declare Sub искать_станцию()
 Declare Sub улитка_ожидание(byval период As Word)
 Declare Sub обработка_бамперов()
 
+
+' Связь
+Declare Sub Printf(byref S As String)
+   Dim Text As String * 50                                  ' буфер-строка для отправки (нужна из-за недопустимости вложенных функция)
+
+
 диод2_зеленый = зажечь
 
 ' Запуск
 Enable Interrupts
 
 Waitms 200
-Print "Start MiniBot v2.1"
+Text = "Start MiniBot v2.1" : Call Printf(text)
 
 старт:
-Print "in start"
+Text = "in start" : Call Printf(text)
 Do
    Select Case состояние_робота
       Case движение_улиткой:
@@ -107,8 +119,9 @@ Do
          Disable Int1
          команда_пульта = Btn_ok : Gosub выполнить_команду  ' снимаем с режима парковки
          Enable Int1
-         Print "in_free_blugdanie"
-         Do                                                 ' idle
+         Text = "in_ir_control" : Call Printf(text)
+         Do
+            Call обработка_бамперов
          Loop
       Case Else
          ' первый запуск, ставим в режим парковки
@@ -116,7 +129,7 @@ Do
          команда_пульта = Btn_power : Gosub выполнить_команду       ' ставим в режим парковки, управление с пульта
          состояние_робота = управление_пультом
          Enable Int1
-         Print "in_parking_mode"
+         Text = "in_parking_mode" : Call Printf(text)
          Do
             Call обработка_бамперов
          Loop
@@ -133,14 +146,14 @@ Loop
       команда_пульта = команда_пульта And &B01111111
       'Print Chr(12);
       'Print "IR_Address - " ; команда_пульта_адрес
-      Print "IR_command - " ; команда_пульта
+      Text = "IR_command - " + Str(команда_пульта) : Call Printf(text)
       If команда_пульта = команда_предыдущая Then           ' считаем сколько уже раз приняли команду
          Incr команда_количество
       Else
          команда_количество = 0
          команда_предыдущая = команда_пульта
       End If
-      Print "количество" ; команда_количество
+      Text = "amount" + Str(команда_количество) : Call Printf(text)
       Call выполнить_команду
    End If
    ' обработка команды
@@ -148,6 +161,20 @@ Loop
    Enable Int1
    If флаг = команда_старт Then
       Goto старт
+   End If
+Return
+
+получить_символ:
+   Toggle диод1_зеленый
+   In_key = Inkey()
+   If In_key <> 13 And In_key <> 10 Then                    ' принимаем пока не встретим конец строки
+         In_string = In_string + Chr(in_key)
+   Else                                                     'text_tmp содержит принятую строку
+      'if In_string = "on" Then сканировать = да
+      'if In_string = "off" Then сканировать = нет
+      'Mid(in_string , 1 , 1) = "-" ' отладочный вывод
+      'Call Printf(in_string)
+      In_string = ""
    End If
 Return
 
@@ -174,7 +201,7 @@ Return
 Return
 
 Sub двигаться_улиткой()
-   Print "in_ulitka"
+   Text = "in_ulitka" : Call Printf(text)
 ' описатели движения
    Dim I As Byte
    Local возможная_скорость As Integer
@@ -203,7 +230,7 @@ Sub улитка_ожидание(byval период As Word)
 End Sub
 
 Sub искать_станцию()
-   Print "in_station_find"
+   Text = "in_station_find" : Call Printf(text)
    Do
    Loop
 End Sub
@@ -296,7 +323,34 @@ Sub выполнить_команду()
          флаг = команда_старт
       Case Btn_s:
          Toggle пылесос
+      Case Btn_tv:
+         'отправка сигнала меге88
+         Text = "on" : Call Printf(text)
+      Case Btn_av:
+         ' отправка сигнала меге88
+         Text = "off" : Call Printf(text)
       Case Else:
          ' ни одна из вышеперечисленных кнопок
    End Select
+End Sub
+
+
+Sub Printf(byval S As String)
+   Local Cnt As Byte
+   Local Len1 As Byte
+   Local Buf As String * 1
+   Reset Ucsrb.rxen
+   Len1 = Len(s)
+   For Cnt = 1 To Len1
+      Bitwait Ucsra.udre , Set                              ' ожидаю момента, когда можно загрузить новые данные
+      Buf = Mid(s , Cnt , 1)
+      Udr = Asc(buf)
+   Next
+      Bitwait Ucsra.udre , Set
+      Udr = 13
+      Bitwait Ucsra.udre , Set
+      Udr = 10
+      Set Ucsra.txc                                         ' очищаю флаг прерывания
+      Bitwait Ucsra.txc , Set                               ' жду пока передатчик не передаст весь пакет (из внутреннего буфера, не UDR)
+   Set Ucsrb.rxen
 End Sub
