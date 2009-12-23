@@ -53,8 +53,6 @@ Getchar:
    Else                                                     'in_string содержит прин€тую строку
       If In_string = "on" Then сканировать = да
       If In_string = "off" Then сканировать = нет
-      'Mid(in_string , 1 , 1) = "-" ' отладочный вывод
-      'Call Printf(in_string)
       In_string = ""
    End If
 Return
@@ -89,7 +87,6 @@ Sharp:
    рассто€ни€(буфер) = дистанци€
    If дифф > порог_срабатывани€ Then
       дистанци€ = дистанци€ / 10
-      'Text = Str(пеленг) + "-" + Str(дистанци€) : Call Printf(text)
       Text = Str(буфер) + "-" + Str(дистанци€) : Call Printf(text)
    End If
 Return
