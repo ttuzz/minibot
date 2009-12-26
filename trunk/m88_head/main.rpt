@@ -1,6 +1,6 @@
 Report       : main
-Date         : 12-24-2009
-Time         : 00:20:31
+Date         : 12-27-2009
+Time         : 01:38:06
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M88
@@ -8,9 +8,9 @@ SRAM         : 400 hex
 EEPROM       : 200 hex
 ROMSIZE      : 2000 hex
 
-ROMIMAGE     : 702 hex  -> Will fit into ROM
-ROMIMAGE     :  1794 dec
-FLASH USED   :  21  %
+ROMIMAGE     : 77C hex  -> Will fit into ROM
+ROMIMAGE     :  1916 dec
+FLASH USED   :  23  %
 BAUD         : 115200 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
@@ -21,7 +21,7 @@ S-Stacksize  : 40 hex
 S-Stackstart : 4C0 hex
 Framesize    : 40 hex
 Framestart   : 47F hex
-Space left   :  707  dec
+Space left   :  710  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -68,14 +68,15 @@ PWM2A                            Byte              00B3          179
 PWM2B                            Byte              00B4          180 
 ERR                              Bit               0006          6 
 дистанция                        Word              0100          256 
-дифф                             Integer           0102          258 
-пеленг                           Byte              0104          260 
-расстояния                       Word (7)          0105          261 
-буфер                            Byte              0113          275 
-сканировать                      Byte              0114          276 
-TEXT                             String            0115          277 
-IN_STRING                        String            0148          328 
-IN_KEY                           Byte              017B          379 
+номер_измерения                  Byte              0102          258 
+дифф                             Integer           0103          259 
+пеленг                           Byte              0105          261 
+расстояния                       Word (5)          0106          262 
+номер_пеленга                    Byte              0110          272 
+сканировать                      Byte              0111          273 
+TEXT                             String            0112          274 
+IN_STRING                        String            0145          325 
+IN_KEY                           Byte              0178          376 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -576,7 +577,7 @@ _SWSTACK_LOW                      1152
 _FRAME_HIGH                       1152                                                                                                                                                                                                                                                           
 да                               0                                                                                                                                                                                                                                                               
 нет                              1                                                                                                                                                                                                                                                               
-порог_срабатывания               100                                                                                                                                                                                                                                                             
+порог_срабатывания               10                                                                                                                                                                                                                                                              
 
 
 --------------------------------------------------------------------------------
@@ -598,4 +599,4 @@ PWM0B                            not used
 PWM2A                            not used
 PWM2B                            not used
 
-Source string could be too big to fit into target string  in line  90 
+Source string could be too big to fit into target string  in line  102 

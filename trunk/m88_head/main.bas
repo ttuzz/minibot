@@ -9,6 +9,8 @@ $framesize = 64
 ' Голова
 Config Adc = Single , Prescaler = Auto , Reference = Internal       'внешняя опора 2.04В
    Dim дистанция As Word
+      Dim номер_измерения As Byte
+
    Dim дифф As Integer
 
 'Config Servos = 1 , Servo1 = Portb.2 , Reload = 20
@@ -17,8 +19,8 @@ Config Timer1 = Pwm , Pwm = 10 , Prescale = 64 , Compare A Pwm = Clear Down , Co
    Servo1 Alias Pwm1b
    Config Pinb.2 = Output
    Dim пеленг As Byte
-   Dim расстояния(7) As Word
-   Dim буфер As Byte
+   Dim расстояния(5) As Word
+   Dim номер_пеленга As Byte
    Dim сканировать As Byte
       Const да = 0
       Const нет = 1
@@ -34,6 +36,8 @@ On Urxc Getchar                                             'переопределяем прер
    Dim In_string As String * 50                             'строка для приема
    Dim In_key As Byte                                       ' текущий принятый символ
 
+Servo1 = 75
+'Servo(1) = 50
 Waitms 1000
    Call Printf( "start minibot mega88" )
    Call Printf( "test")
@@ -53,41 +57,49 @@ Getchar:
    Else                                                     'in_string содержит принятую строку
       If In_string = "on" Then сканировать = да
       If In_string = "off" Then сканировать = нет
+      If In_string = "ctr" Then Servo1 = 75                 'Servo(1) = 50               'Servo1 = 75
       In_string = ""
    End If
 Return
 
 сканирование:
 Do
-   For пеленг = 35 To 65 Step 5
-     'Servo(1) = пеленг
-     Servo1 = пеленг
-     Waitms 50
-     Gosub Sharp
+   номер_пеленга = 0
+   For пеленг = 65 To 85 Step 5                             ' центр 75
+      Incr номер_пеленга
+      Servo1 = пеленг
+      'Servo(1) = пеленг
+      Waitms 150
+      Gosub Sharp
    Next
-   For пеленг = 65 To 35 Step -5
-     'Servo(1) = пеленг
-     Servo1 = пеленг
-     Waitms 50
-     Gosub Sharp
+   For пеленг = 85 To 65 Step -5
+      Servo1 = пеленг
+      'Servo(1) = пеленг
+      Waitms 150
+      Gosub Sharp
+      Decr номер_пеленга
    Next
 Loop Until сканировать = нет
-'Servo(1) = 50
-Servo1 = 50
+Servo1 = 75
+'Servo(1) = пеленг
 Return
 
 Sharp:
-  Const порог_срабатывания = 100
+  Const порог_срабатывания = 10
    Start Adc
    дистанция = Getadc(0) : дистанция = Getadc(0) : дистанция = Getadc(0)
+      дистанция = 0
+      For номер_измерения = 1 To 10
+         дистанция = дистанция + Getadc(0)
+      Next
+      дистанция = дистанция \ 10
    Stop Adc
-   буфер = пеленг - 30 : буфер = буфер \ 5
-   дифф = дистанция - расстояния(буфер)
+   дифф = дистанция - расстояния(номер_пеленга)
    дифф = Abs(дифф)
-   расстояния(буфер) = дистанция
    If дифф > порог_срабатывания Then
+      расстояния(номер_пеленга) = дистанция
       дистанция = дистанция / 10
-      Text = Str(буфер) + "-" + Str(дистанция) : Call Printf(text)
+      Text = Str(номер_пеленга) + "-" + Str(дистанция) : Call Printf(text)
    End If
 Return
 
