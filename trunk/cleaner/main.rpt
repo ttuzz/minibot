@@ -1,6 +1,6 @@
 Report       : main
-Date         : 12-24-2009
-Time         : 00:11:07
+Date         : 12-26-2009
+Time         : 21:43:40
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M32
@@ -8,9 +8,9 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : FC4 hex  -> Will fit into ROM
-ROMIMAGE     :  4036 dec
-FLASH USED   :  12  %
+ROMIMAGE     : D28 hex  -> Will fit into ROM
+ROMIMAGE     :  3368 dec
+FLASH USED   :  10  %
 BAUD         : 115200 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
@@ -21,7 +21,7 @@ S-Stacksize  : 40 hex
 S-Stackstart : 820 hex
 Framesize    : 40 hex
 Framestart   : 7DF hex
-Space left   :  1710  dec
+Space left   :  1711  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -83,7 +83,6 @@ ERRBYTE                          Byte              00A7          167
 расстояния                       Word (7)          00AE          174 
 буфер                            Byte              00BC          188 
 TEXT                             String            00BD          189 
-I                                Byte              00F0          240 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -489,8 +488,8 @@ BTN_QUESTION                     44
 BTN_STRETCH                      43                                                                                                                                                                                                                                                              
 BTN_SQUEEZE                      41                                                                                                                                                                                                                                                              
 BTN_NORMAL                       60                                                                                                                                                                                                                                                              
-вперед                           0                                                                                                                                                                                                                                                               
-назад                            1                                                                                                                                                                                                                                                               
+вперед                           1                                                                                                                                                                                                                                                               
+назад                            0                                                                                                                                                                                                                                                               
 точка_останова                   50                                                                                                                                                                                                                                                              
 зажечь                           1                                                                                                                                                                                                                                                               
 потушить                         0                                                                                                                                                                                                                                                               
@@ -502,9 +501,6 @@ BTN_NORMAL                       60
 стоп                             2                                                                                                                                                                                                                                                               
 команда_пуста                    0                                                                                                                                                                                                                                                               
 команда_старт                    1                                                                                                                                                                                                                                                               
-улитка_прибавка_скорости         10                                                                                                                                                                                                                                                              
-улитка_разбалансировка           10                                                                                                                                                                                                                                                              
-улитка_время_движения            50                                                                                                                                                                                                                                                              
 
 
 --------------------------------------------------------------------------------
