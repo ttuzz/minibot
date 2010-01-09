@@ -1,6 +1,6 @@
 Report       : main
 Date         : 01-09-2010
-Time         : 00:28:47
+Time         : 15:09:43
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M32
@@ -8,9 +8,9 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : F44 hex  -> Will fit into ROM
-ROMIMAGE     :  3908 dec
-FLASH USED   :  11  %
+ROMIMAGE     : F68 hex  -> Will fit into ROM
+ROMIMAGE     :  3944 dec
+FLASH USED   :  12  %
 BAUD         : 115200 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
