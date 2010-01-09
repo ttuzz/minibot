@@ -154,6 +154,11 @@ begin
   with pb_progress do
     Position := Min;
   try
+    // подготавливаем пакет
+    packet := TPacket.create(filename);
+    if packet.firmware_overload then            // прошивка не убьет загрузчик?
+      raise Exception.Create('Прошивка затрет загрузчик');
+
     // открываем порт, если не откроется, то выведется сообщение из библиотеки
     com.Open;
       com.WriteStr('boot' + #13);
@@ -165,9 +170,6 @@ begin
       raise Exception.Create('Не удалось войти в режим загрузки');
 
     // шлем пакеты
-    packet := TPacket.create(filename);
-    if packet.firmware_overload then            // прошивка не убьет загрузчик?
-      raise Exception.Create('Прошивка затрет загрузчик');
     diff := (pb_progress.Max - pb_progress.Min) / packet.amount;
     d_progress := pb_progress.Min;
     while not packet.is_end do
@@ -199,24 +201,47 @@ begin
   Application.Terminate;  
 end;
 
+function pos_ex(substr: string): byte;
+var
+  found: boolean;
+begin
+  result := 0;
+  found := false;
+  repeat
+    inc(result);
+    found := pos(substr, paramstr(result)) = 1;
+  until (result = ParamCount) or found;
+  if not found then
+    result := 0;
+end;
+
 procedure Tfrm_main.FormCreate(Sender: TObject);
 var
-  port: string;
+  i: byte;
 begin
   // верификация параметров командной строки
   try
-    if ParamStr(1) <> '-dATMEGA32' then
+    if pos_ex('-dATMEGA32') = 0 then
       raise Exception.Create('Поддерживается только ATMega32');
-    if ParamStr(2) <> '-ms' then
+    if pos_ex('-ms') = 0 then
       raise Exception.Create('Поддерживается только последовательный режим программирования');
-    if copy(ParamStr(3), 2, 2) <> 'if' then
+    if pos_ex('-pf') = 0 then
       raise Exception.Create('Поддерживается только запись FLASH памяти');
-    if not FileExists(copy(ParamStr(3), 4, length(paramstr(3))-3)) then
-      raise Exception.Create('Входной файл не существует');
-    if ParamStr(5) <> '-pf' then
-      raise Exception.Create('Поддерживается только запись FLASH памяти');
-    if copy(ParamStr(7), 2, 4) <> 'ccom' then
-      raise Exception.Create('COM-порт задан неверно');
+    i := pos_ex('-c');
+    if pos_ex('-c') = 0 then
+      raise Exception.Create('COM-порт не задан')
+    else begin
+      com.Port := UpperCase(copy(ParamStr(i), 3, length(ParamStr(i))-2));
+      lb_port.Caption := com.port + ', ' + inttostr(115200);
+    end;
+    i := pos_ex('-if');
+    if i = 0 then
+      raise Exception.Create('Не задан файл прошивки для FLASH памяти')
+    else begin
+      if not FileExists(copy(ParamStr(i), 4, length(paramstr(i))-3)) then
+        raise Exception.Create('Файл  прошивки не существует');
+      filename := copy(ParamStr(i), 4, length(paramstr(i))-3);
+    end;
   except
     on e: Exception do
     begin
@@ -224,11 +249,6 @@ begin
       Halt;
     end;
   end;
-  port := copy(ParamStr(7), 3, length(ParamStr(7))-2);
-  port := UpperCase(port);
-  com.Port := port;
-  lb_port.Caption := com.port + ', ' + inttostr(115200);
-  filename := copy(ParamStr(3), 4, length(paramstr(3))-3);
 end;
 
 end.

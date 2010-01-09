@@ -13,7 +13,7 @@ interface
     number: byte;
     
     function convert_one_string(s: string): TData;
-    function convert_hex(source: string; var dest: TMemoryStream): boolean;
+    procedure convert_hex(source: string; var dest: TMemoryStream);
   public
     function next: string;
     function cancel: string;
@@ -40,21 +40,21 @@ begin
   delete(s,1,8);
   HexToBin(pchar(s_len), pchar(len), 1);
   setlength(result,16);
-  hextobin(pchar(s), pchar(result), len[0]);
+  HexToBin(pchar(s), pchar(result), len[0]);
   for i := len[0] to 15 do             // дополняем 0xFF если необходимо
     result[i] := $FF;
 end;
 
-function TPacket.convert_hex(source: string; var dest: TMemoryStream): boolean;
+procedure TPacket.convert_hex(source: string; var dest: TMemoryStream);
 // загружает чистые данные в файл dest
 // ДОВОДИТ ДАННЫЕ ДО РАЗМЕРА k*128, вставляя в конец 0xFF
 // нужно для пакетов бутлодера
 var
   finp: TStringList;
   data: TData;
-  i,k: byte;
+  i: word;
+  k: byte;
 begin
-  result := false;
   finp := TStringList.Create;
   finp.LoadFromFile(source);            // загрузили список строк
   dest := TMemoryStream.Create;         // приемник
@@ -70,7 +70,6 @@ begin
     dest.WriteBuffer(i, 1);
   dest.Position := 0;
   setlength(data,0);
-  result := true;
 end;
 
 constructor TPacket.create(source: string);
@@ -78,7 +77,7 @@ begin
   convert_hex(source, firmware);
   _is_end := false;
   number := 1;
-  firmware.SaveToFile('c:\123');
+  //firmware.SaveToFile('c:\123123');
 end;
 
 destructor TPacket.free;
