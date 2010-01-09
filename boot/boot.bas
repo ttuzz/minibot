@@ -77,69 +77,71 @@ Goto _reset                                                 ' Переход по адресу 
 
 ' Процедура лоадера, реализует Xmodem-checksum
 Loader:
-  Do
-     Bstatus = Waitkey()
-  Loop Until Bstatus = 125                                  ' Очистка буфера
+Do
+   Bstatus = Waitkey()
+Loop Until Bstatus = 125                                 ' Очистка буфера
+   Bstatus = Waitkey()                                   ' ждем символ #13
+   Bstatus = 125
 
+For J = 1 To 3                                           ' Простая индикация того, что мы переходим по нормальному ресет вектору 0x0000 (!!!) или таки прошли в бутлоадер??
+   Toggle Led_r1 : Waitms 50
+Next
 
-  For J = 1 To 3                                            ' Простая индикация того, что мы переходим по нормальному ресет вектору 0x0000 (!!!) или таки прошли в бутлоадер??
-     Toggle Led_r1 : Waitms 50
-  Next
-
-  If Bkind = 0 Then                                         ' Если в режиме FLASH программатора
-     Spmcrval = 3 : Gosub Do_spm                            ' стирание страницы по адресу Z
-     Spmcrval = 17 : Gosub Do_spm                           ' разрешить доступ к RWW памяти (стирание буфера)
-  End If
+If Bkind = 0 Then                                        ' Если в режиме FLASH программатора
+   Spmcrval = 3 : Gosub Do_spm                           ' стирание страницы по адресу Z
+   Spmcrval = 17 : Gosub Do_spm                          ' разрешить доступ к RWW памяти (стирание буфера)
+End If
 
 
 Bretries = 10                                               ' Количество попыток
 
 Do
-  Bstarted = 0                                              ' Мы ещё не стартовали
-  Csum = 0                                                  ' Чексумма = 0 при старте
-  Call Chr_print(nak)                                       ' Первый раз шлем nack
-  Do
-    Bstatus = Waitkey()                                     ' Ждем статус-байт
-    Select Case Bstatus
-       Case 1:                                              ' Начало заголовка, PC готов слать данные
-            Incr Bblocklocal                                'increase local block count
-            Csum = 1                                        'checksum is 1
-            Bblock = Waitkey() : Csum = Csum + Bblock       'get block
-            Bcsum1 = Waitkey() : Csum = Csum + Bcsum1       'get checksum first byte
-            For J = 1 To 128                                'get 128 bytes
-              Buf(j) = Waitkey() : Csum = Csum + Buf(j)
-            Next
-            Bcsum2 = Waitkey()                              'get second checksum byte
-            If Bblocklocal = Bblock And Bcsum2 = Csum Then  'are the blocks and the checksum the same?
-               Gosub Writepage                              'yes go write the page
-               Call Chr_print(ack)                          'acknowledge
-            Else
-               Call Chr_print(nak)                          'blocks do not match, so send nack
-            End If
-       Case 4:                                              ' end of transmission , file is transmitted
-             If Wrd > 0 And Bkind = 0 Then                  'if there was something left in the page
-                 Wrd = 0                                    'Z pointer needs wrd to be 0
-                 Spmcrval = 5 : Gosub Do_spm                'write page
-                 Spmcrval = 17 : Gosub Do_spm               ' re-enable page
-             End If
-             Call Chr_print(ack)                            ' send ack and ready
+   Bstarted = 0                                             ' Мы ещё не стартовали
+   Csum = 0                                                 ' Чексумма = 0 при старте
+   Call Chr_print(nak)                                      ' Первый раз шлем nack
+   Do
+      Bstatus = Waitkey()                                   ' Ждем статус-байт
+      Select Case Bstatus
+      Case 1:                                              ' Начало заголовка, PC готов слать данные
+         Incr Bblocklocal                                'increase local block count
+         Csum = 1                                        'checksum is 1
+         Bblock = Waitkey() : Csum = Csum + Bblock       'get block
+         Bcsum1 = Waitkey() : Csum = Csum + Bcsum1       'get checksum first byte
+         For J = 1 To 128                                'get 128 bytes
+           Buf(j) = Waitkey() : Csum = Csum + Buf(j)
+         Next
+         Bcsum2 = Waitkey()                              'get second checksum byte
+            Bstatus = Waitkey()                          ' ждем символ #13
+         If Bblocklocal = Bblock And Bcsum2 = Csum Then  'are the blocks and the checksum the same?
+            Gosub Writepage                              'yes go write the page
+            Call Chr_print(ack)                          'acknowledge
+         Else
+            Call Chr_print(nak)                          'blocks do not match, so send nack
+         End If
+      Case 4:                                              ' end of transmission , file is transmitted
+         If Wrd > 0 And Bkind = 0 Then                  'if there was something left in the page
+           Wrd = 0                                    'Z pointer needs wrd to be 0
+           Spmcrval = 5 : Gosub Do_spm                'write page
+           Spmcrval = 17 : Gosub Do_spm               ' re-enable page
+         End If
+         Call Chr_print(ack)                            ' send ack and ready
 
-             Led_g1 = 1                                     ' simple indication that we are finished and ok
-             Led_r1 = 0
-             Waitms 20
-             Goto _reset                                    ' start new program
-       Case Can:                                            ' PC aborts transmission
-             Goto _reset                                    ' ready
-       Case Else
-          Exit Do                                           ' no valid data
-    End Select
-  Loop
-  If Bretries > 0 Then                                      'attempte left?
+         Led_g1 = 1                                     ' simple indication that we are finished and ok
+         Led_r1 = 0
+         Waitms 20
+         Goto _reset                                    ' start new program
+      Case Can:                                            ' PC aborts transmission
+         Goto _reset                                        ' ready
+      Case Else
+         Exit Do                                            ' no valid data
+      End Select
+   Loop
+   If Bretries > 0 Then                                      'attempte left?
      Waitms 1000
      Decr Bretries                                          'decrease attempts
-  Else
+   Else
      Goto _reset                                            'reset chip
-  End If
+   End If
 Loop
 
 
@@ -154,53 +156,53 @@ Spmcrval:
 
 'write one or more pages
 Writepage:
- If Bkind = 0 Then                                          ' FLASH лоадер
-   For J = 1 To 128 Step 2                                  'we write 2 bytes into a page
-      Vl = Buf(j) : Vh = Buf(j + 1)                         'get Low and High bytes
-      lds r0, {vl}                                          'store them into r0 and r1 registers
-      lds r1, {vh}
-      Spmcrval = 1 : Gosub Do_spm                           'write value into page at word address
-      Wrd = Wrd + 2                                         ' word address increases with 2 because LS bit of Z is not used
-      If Wrd = Maxword Then                                 ' page is full
-          Wrd = 0                                           'Z pointer needs wrd to be 0
-          Spmcrval = 5 : Gosub Do_spm                       'write page
-          Spmcrval = 17 : Gosub Do_spm                      ' re-enable page
+   If Bkind = 0 Then                                        ' FLASH лоадер
+      For J = 1 To 128 Step 2                                  'we write 2 bytes into a page
+         Vl = Buf(j) : Vh = Buf(j + 1)                         'get Low and High bytes
+         lds r0, {vl}                                          'store them into r0 and r1 registers
+         lds r1, {vh}
+         Spmcrval = 1 : Gosub Do_spm                           'write value into page at word address
+         Wrd = Wrd + 2                                         ' word address increases with 2 because LS bit of Z is not used
+         If Wrd = Maxword Then                                 ' page is full
+            Wrd = 0                                           'Z pointer needs wrd to be 0
+            Spmcrval = 5 : Gosub Do_spm                       'write page
+            Spmcrval = 17 : Gosub Do_spm                      ' re-enable page
 
-          Page = Page + 1                                   'next page
-          Spmcrval = 3 : Gosub Do_spm                       ' erase  next page
-          Spmcrval = 17 : Gosub Do_spm                      ' re-enable page
-      End If
-   Next
+            Page = Page + 1                                   'next page
+            Spmcrval = 3 : Gosub Do_spm                       ' erase  next page
+            Spmcrval = 17 : Gosub Do_spm                      ' re-enable page
+         End If
+      Next
 
- Else                                                       ' EEPROM лоадер
-     For J = 1 To 128
-       Writeeeprom Buf(j) , Wrd
-       Wrd = Wrd + 1
-     Next
- End If
- Toggle Led_r1 : Waitms 10 : Toggle Led_r1                  'indication that we write
+   Else                                                     ' EEPROM лоадер
+      For J = 1 To 128
+         Writeeeprom Buf(j) , Wrd
+         Wrd = Wrd + 1
+      Next
+   End If
+   Toggle Led_r1 : Waitms 10 : Toggle Led_r1                'indication that we write
 Return
 
 
 Do_spm:
-  Bitwait Spmcsr.0 , Reset                                  ' check for previous SPM complete
-  Bitwait Eecr.1 , Reset                                    'wait for eeprom
+   Bitwait Spmcsr.0 , Reset                                  ' check for previous SPM complete
+   Bitwait Eecr.1 , Reset                                    'wait for eeprom
 
-  Z = Page                                                  'make equal to page
-  Shift Z , Left , Maxwordshift                             'shift to proper place
-  Z = Z + Wrd                                               'add word
-  lds r30,{Z}
-  lds r31,{Z+1}
+   Z = Page                                                  'make equal to page
+   Shift Z , Left , Maxwordshift                             'shift to proper place
+   Z = Z + Wrd                                               'add word
+   lds r30,{Z}
+   lds r31,{Z+1}
 
-  #if _romsize > 65536
+   #if _romsize > 65536
       lds r24,{Z+2}
       sts rampz,r24                                         ' we need to set rampz also for the M128
-  #endif
+   #endif
 
-  Spmcsr = Spmcrval                                         'assign register
-  spm                                                       'this is an asm instruction
-  nop
-  nop
+   Spmcsr = Spmcrval                                         'assign register
+   spm                                                       'this is an asm instruction
+   nop
+   nop
 Return
 
 
@@ -208,6 +210,9 @@ Sub Chr_print(byval S As Byte)
    Reset Ucsrb.rxen
       Bitwait Ucsra.udre , Set
       Udr = S
+      Bitwait Ucsra.udre , Set
+      Udr = 13                                              ' символ #13
+      Bitwait Ucsra.udre , Set
       Set Ucsra.txc                                         ' очищаю флаг прерывания
       Bitwait Ucsra.txc , Set                               ' жду пока передатчик не передаст весь пакет (из внутреннего буфера, не UDR)
    Set Ucsrb.rxen
