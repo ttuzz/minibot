@@ -1,0 +1,38 @@
+program stk500;
+
+uses
+  Forms, Dialogs, SysUtils,
+  main in 'main.pas' {frm_main},
+  packet_generator in 'packet_generator.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(Tfrm_main, frm_main);
+  Application.Run;
+
+  // здесь верификация параметров командной строки
+  try
+    if ParamStr(1) <> '-dATMEGA32' then
+      raise Exception.Create('Поддерживается только ATMega32');
+    if ParamStr(2) <> '-ms' then
+      raise Exception.Create('Поддерживается только последовательный режим программирования');
+    if copy(ParamStr(3), 2, 2) <> 'if' then
+      raise Exception.Create('Поддерживается только запись FLASH памяти');
+    if not FileExists(copy(ParamStr(3), 4, length(paramstr(3))-3)) then
+      raise Exception.Create('Входной файл не существует');
+    if ParamStr(5) <> '-pf' then
+      raise Exception.Create('Поддерживается только запись FLASH памяти');
+    if copy(ParamStr(7), 2, 4) <> 'ccom' then
+      raise Exception.Create('COM-порт задан неверно');
+  except
+    on e: Exception do
+    begin
+      ShowMessage(e.Message);
+      Application.Terminate;
+    end;
+  end;
+  
+
+end.
