@@ -1,16 +1,12 @@
 '----------------------------------------------------------------
-'                          (c) 1995-2007, MCS
-'                        Bootloader.bas
-'  This sample demonstrates how you can write your own bootloader
-'  in BASCOM BASIC
-'  VERSION 2 of the BOOTLOADER. The waiting for the NAK is stretched
-'  further a bug was resolved for the M64/M128 that have a big page size
+'                          (c) 2010
+'@Author: MiBBiM
+'@Description: Бутлоадер для Мега32 робота МиниБот, использует UART
 '-----------------------------------------------------------------
-'This sample will be extended to support other chips with bootloader
-'The loader is supported from the IDE
-
-$crystal = 7372800                                          '8000000
-$baud = 115200                                              '38400                                             'this loader uses serial com
+' !!!!!!!ТОЛЬКО ДЛЯ МЕГА32!!!!!!
+'$prog &HFF , &HBD , &HCA , &H00
+$crystal = 7372800
+$baud = 115200
 ' Не использовать буферизованный ввод, ибо прерывания ЗАПРЕЩЕНЫ
 
 $regfile = "m32def.dat"
@@ -39,8 +35,6 @@ Dim Bkind As Byte , Bstarted As Byte
 
 Disable Interrupts                                          ' Прерывания не используются!!!
 
-
-'Waitms 100                                                  'wait 100 msec sec
 'We start with receiving a file. The PC must send this binary file
 
 ' Константы для управляющих символов
@@ -48,14 +42,17 @@ Const Nak = &H15
 Const Ack = &H06
 Const Can = &H18
 
-' Светодиод для индикации процесса. Мигающий красный - прошивка, горящий зеленый - успешное завершение
+' Светодиоды для индикации процесса. Мигающий красный - прошивка, горящий зеленый - успешное завершение
 Config Pinc.4 = Output : Led_r1 Alias Portc.4 : Led_r1 = 0
 Config Pinc.5 = Output : Led_g1 Alias Portc.5 : Led_g1 = 0
+Config Pinc.6 = Output : Led_r2 Alias Portc.6 : Led_r2 = 0
+Config Pinc.7 = Output : Led_g2 Alias Portc.7 : Led_g2 = 0
 
-'$timeout = 400000                                           ' Таймаут для выхода
+
+$timeout = 3500000                                          ' Таймаут для выхода
 ' Если лоадер сбоит, увеличиваем значение таймаута
 
-Bretries = 5                                                ' Пробуем 5 раз
+Bretries = 10                                               ' Пробуем 5 раз
 Testfor123:
 Bstatus = Waitkey()                                         'wait for the loader to send a byte
 
@@ -128,6 +125,7 @@ Do
              Call Chr_print(ack)                            ' send ack and ready
 
              Led_g1 = 1                                     ' simple indication that we are finished and ok
+             Led_r1 = 0
              Waitms 20
              Goto _reset                                    ' start new program
        Case Can:                                            ' PC aborts transmission
