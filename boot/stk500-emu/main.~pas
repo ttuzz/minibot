@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, XPMan, ComCtrls, ExtCtrls,
-  {!}packet_generator, BCPort{!};
+  Dialogs, StdCtrls, XPMan, ComCtrls, ExtCtrls, BCPort,
+  {!}packet_generator{!};
 
 type
   Tfrm_main = class(TForm)
@@ -37,20 +37,18 @@ var
 
 implementation
 
-uses DateUtils, Math;
-
 {$R *.dfm}
 
-procedure wait_for_echo(source: string);
+procedure wait_ms(ms: word);
 var
-  i: word;
+  start_time: TDateTime;
+  is_timeout: boolean;
 begin
+  start_time := Time;
   repeat
     Application.ProcessMessages;
-    i := pos(source, com_receive);
-  until i <> 0;
-  delete(com_receive, 1, i+length(source)-1);
-  // необходимо доработать: ввести защиту от слишком долгого ожидани€
+    is_timeout := (Time-start_time)*24*3600*1000 > ms;
+  until (com_receive <> '') or is_timeout;
 end;
 
 function Tfrm_main.send_packet(packet: string): boolean;
@@ -94,7 +92,7 @@ var
   is_timeout: boolean;
 begin
   com_receive := '';
-  com.WriteStr(comm);
+  com.WriteStr(comm + #13);
   start_time := Time;
   repeat
     is_ack := pos(ack, com_receive) <> 0;
@@ -105,33 +103,6 @@ begin
   result := is_ack and (answer = ack);
   result := result or (is_nak and (answer = nak));
 end;
-
-{
-procedure Tfrm_main.lbKeyPress(Sender: TObject; var Key: Char);
-var
-  packet: TPacket;
-  buf: string;
-  packet_str: string;
-  i: byte;
-begin
-  // C:\DOCUME~1\MIBBIM~1.ARH\0016~1\EMPTY_~1\M32.HEX
-  //packet.convert_hex('c:\m16.hex', 'c:\123');
-  //packet := TPacket.create(filename);
-  packet := TPacket.create(filename);
-  while not packet.is_end do
-  begin
-    packet_str := packet.next;
-    buf := '';
-    for i := 1 to length(packet_str) do
-      buf := buf + inttohex(ord(packet_str[i]),2) + ' ';
-    mem.Lines.Append(buf);
-  end;
-
-  packet.free;
-  if ord(key) = vk_return then
-    Application.Terminate;
-end;
-}
 
 procedure Tfrm_main.comRxChar(Sender: TObject; Count: Integer);
 var
@@ -162,7 +133,7 @@ begin
     // открываем порт, если не откроетс€, то выведетс€ сообщение из библиотеки
     com.Open;
       com.WriteStr('boot' + #13);
-      sleep(250);
+      wait_ms(250);
     // символ начала прошивки + очистка буфера
     if not send_command(#123, ack) then
       raise Exception.Create('Ќе удалось войти в режим загрузки');

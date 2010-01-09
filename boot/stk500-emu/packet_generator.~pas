@@ -105,9 +105,10 @@ begin
       inc(csum, ord(result[i]));
     end;
     result := result + chr(csum);         // второй байт чексуммы
+    result := result + #13;
     inc(number);
   end else begin                          // генерирую пакет завершения
-    result := #4;
+    result := #4 + #13;
     _is_end := true;
   end;
 end;
@@ -120,12 +121,12 @@ end;
 function TPacket.cancel: string;
 // генерирует стоп-пакет
 begin
-  result := #$18;
+  result := #$18 + #13;
 end;
 
 function TPacket.firmware_overload: boolean;
 begin
-  result := firmware.Size > 15359;       // $3BFF или 0x3BFF
+  result := firmware.Size > $3BFF;       // 0x3BFF или 15359
 end;
 
 function TPacket.amount: word;
