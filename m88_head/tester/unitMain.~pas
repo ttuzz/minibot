@@ -161,19 +161,45 @@ end;
 
 procedure TfrmMain.btn_enable_controlClick(Sender: TObject);
 begin
-  if not com.Open then
+  if btn_enable_control.Caption = 'Подключиться' then
   begin
-    ShowMessage('Невозможно открыть порт!');
-    exit;
+    try
+      if com.Port = '' then com.Port := 'COM145'
+      com.Open
+    except
+      on e: Exception do
+      begin
+        ShowMessage(e.Message);
+        Halt;
+      end;
+    end;
+    com_receive := '';
+    // интерфейс
+    btn_enable_control.Caption := 'Отключиться';
+    btn_on.Enabled := true;
+    btn_off.Enabled := true;
+    btn_com_refresh.Enabled := false;
+    cb_com_baudrate.Enabled := false;
+    cb_com_port.Enabled := false;
+  end else begin
+    try
+      com.Close
+    except
+      on e: Exception do
+      begin
+        ShowMessage(e.Message);
+        Halt;
+      end;
+    end;
+    com_receive := '';
+    // интерфейс
+    btn_enable_control.Caption := 'Подключиться';
+    btn_on.Enabled := false;
+    btn_off.Enabled := false;
+    btn_com_refresh.Enabled := true;
+    cb_com_baudrate.Enabled := true;
+    cb_com_port.Enabled := true;
   end;
-  com_receive := '';
-
-  // интерфейс
-  btn_com_refresh.Enabled := false;
-  btn_Author.Enabled := false;
-  btn_enable_control.Enabled := false;
-  cb_com_baudrate.Enabled := false;
-  cb_com_port.Enabled := false;
 end;
 
 procedure TfrmMain.btn_onClick(Sender: TObject);
