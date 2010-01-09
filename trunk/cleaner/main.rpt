@@ -1,6 +1,6 @@
 Report       : main
-Date         : 12-27-2009
-Time         : 01:46:37
+Date         : 01-09-2010
+Time         : 00:28:47
 
 Compiler     : BASCOM-AVR LIBRARY V 1.11.9.5
 Processor    : M32
@@ -8,9 +8,9 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : D4A hex  -> Will fit into ROM
-ROMIMAGE     :  3402 dec
-FLASH USED   :  10  %
+ROMIMAGE     : F44 hex  -> Will fit into ROM
+ROMIMAGE     :  3908 dec
+FLASH USED   :  11  %
 BAUD         : 115200 Baud
 XTAL         : 7372800 Hz
 BAUD error   : 0.%
@@ -21,7 +21,7 @@ S-Stacksize  : 40 hex
 S-Stackstart : 820 hex
 Framesize    : 40 hex
 Framestart   : 7DF hex
-Space left   :  1711  dec
+Space left   :  1710  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -82,7 +82,10 @@ ERRBYTE                          Byte              00A7          167
 флаг                             Byte              00AD          173 
 расстояния                       Word (7)          00AE          174 
 буфер                            Byte              00BC          188 
-TEXT                             String            00BD          189 
+сработал_бампер                  Bit               00BD          189 
+бампер_активен                   Bit               00BD          189 
+активировать_бампер              Bit               00BD          189 
+TEXT                             String            00BE          190 
 
 --------------------------------------------------------------------------------
 Constant                         Value
